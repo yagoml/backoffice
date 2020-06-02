@@ -16,6 +16,7 @@ export default class Avatar extends Vue {
 
 <style scoped lang="scss">
 .avatar {
+  min-width: 50px;
   width: 50px;
   height: 50px;
   border: solid 2px #0065ff;
