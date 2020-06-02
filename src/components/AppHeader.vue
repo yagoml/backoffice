@@ -3,7 +3,7 @@
     class="d-flex align-items-center justify-content-between w-100 app-header"
   >
     <div class="d-flex align-items-center app-header__logo">
-      <img src="../assets/svg/logo.svg" />
+      <img src="/svg/logo.svg" />
       <div class="backoffice">BACKOFFICE</div>
     </div>
   </div>
