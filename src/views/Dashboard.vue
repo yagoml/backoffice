@@ -1,7 +1,19 @@
 <template>
-  <div class="dashboard"></div>
+  <b-container fluid class="dashboard">
+    <b-row>
+      <SidebarMenu />
+      <AppHeader />
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-export default {}
+import AppHeader from '@/components/AppHeader'
+import SidebarMenu from '@/components/SidebarMenu'
+
+export default {
+  name: 'Dashboard',
+
+  components: { AppHeader, SidebarMenu }
+}
 </script>
