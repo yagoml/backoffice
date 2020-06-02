@@ -9,6 +9,11 @@
         </a>
       </div>
     </div>
+    <ul class="sidebar-menu__items">
+      <li class="item">
+        <img src="" alt="" />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -23,7 +28,14 @@ export default {
 
   data() {
     return {
-      iconLogout: IconLogout
+      iconLogout: IconLogout,
+      items: [
+        { copy: 'Início', icon: '' },
+        { copy: 'Clientes', icon: '' },
+        { copy: 'Veículos', icon: '' },
+        { copy: 'Triangulação', icon: '' },
+        { copy: 'Financeiro', icon: '', disabled: true }
+      ]
     }
   }
 }
