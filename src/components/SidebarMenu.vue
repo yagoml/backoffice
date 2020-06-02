@@ -5,39 +5,35 @@
       <div class="user-name">
         <div class="text-inter-medium">Meghan H. Vega</div>
         <a href="#" class="d-flex align-items-center logout">
-          <img :src="iconLogout" class="icon" /> SAIR
+          <img src="../assets/svg/ic-logout.svg" class="icon" /> SAIR
         </a>
       </div>
     </div>
     <ul class="sidebar-menu__items">
-      <li class="item">
+      <li class="item" v-for="(item, i) in items" :key="i">
         <img src="" alt="" />
       </li>
     </ul>
   </div>
 </template>
 
-<script>
-import Avatar from '@/components/user/Avatar'
-import IconLogout from '@/assets/svg/icon-logout.svg'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import Avatar from '@/components/user/Avatar.vue'
+import { ISBMenuItem } from '@/interfaces'
 
-export default {
-  name: 'Sidebar',
-
-  components: { Avatar },
-
-  data() {
-    return {
-      iconLogout: IconLogout,
-      items: [
-        { copy: 'Início', icon: '' },
-        { copy: 'Clientes', icon: '' },
-        { copy: 'Veículos', icon: '' },
-        { copy: 'Triangulação', icon: '' },
-        { copy: 'Financeiro', icon: '', disabled: true }
-      ]
-    }
-  }
+@Component<SidebarMenu>({
+  components: { Avatar }
+})
+export default class SidebarMenu extends Vue {
+  name = 'Sidebar'
+  items: ISBMenuItem[] = [
+    { copy: 'Início', icon: '' },
+    { copy: 'Clientes', icon: '' },
+    { copy: 'Veículos', icon: '' },
+    { copy: 'Triangulação', icon: '' },
+    { copy: 'Financeiro', icon: '', disabled: true }
+  ]
 }
 </script>
 

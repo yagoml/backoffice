@@ -4,15 +4,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Avatar',
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 
-  data() {
-    return {
-      imgSrc: './images/woman-picture.jpg'
-    }
-  }
+@Component
+export default class Avatar extends Vue {
+  name = 'Avatar'
+  imgSrc = './images/woman-picture.jpg'
 }
 </script>
 

@@ -3,23 +3,18 @@
     class="d-flex align-items-center justify-content-between w-100 app-header"
   >
     <div class="d-flex align-items-center app-header__logo">
-      <img :src="logoSvg" />
+      <img src="../assets/svg/logo.svg" />
       <div class="backoffice">BACKOFFICE</div>
     </div>
   </div>
 </template>
 
-<script>
-import LogoSvg from '@/assets/svg/logo.svg'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 
-export default {
-  name: 'AppHeader',
-
-  data() {
-    return {
-      logoSvg: LogoSvg
-    }
-  }
+@Component
+export default class AppHeader extends Vue {
+  name = 'AppHeader'
 }
 </script>
 
