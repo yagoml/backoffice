@@ -3,6 +3,7 @@
     <b-row>
       <SidebarMenu />
       <AppHeader />
+      <DashContent />
     </b-row>
   </b-container>
 </template>
@@ -10,11 +11,12 @@
 <script>
 import AppHeader from '@/components/AppHeader'
 import SidebarMenu from '@/components/SidebarMenu'
+import DashContent from '@/components/DashContent'
 
 export default {
   name: 'Dashboard',
 
-  components: { AppHeader, SidebarMenu }
+  components: { AppHeader, SidebarMenu, DashContent }
 }
 </script>
 
