@@ -2,11 +2,11 @@
     <defs>
         <path id="prefix__a" d="M0 0L5 5 10 0z"/>
     </defs>
-    <g fill="none" fill-rule="evenodd" transform="matrix(-1 0 0 1 17 10)">
+    <g fill="none" fill-rule="evenodd" opacity=".5" transform="translate(7 10)">
         <mask id="prefix__b" fill="#fff">
             <use xlink:href="#prefix__a"/>
         </mask>
-        <g fill="#FC4A40" mask="url(#prefix__b)">
+        <g fill="#000" mask="url(#prefix__b)">
             <path d="M0 0H50V50H0z" transform="translate(-20 -23)"/>
         </g>
     </g>

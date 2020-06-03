@@ -1,13 +1,32 @@
 export interface IGadgetInfo {
-  title: String
-  value: Number | String
-  percent: Number
-  icon: String
-  since: String
+  title: string
+  value: number | string
+  percent: number
+  icon: string
+  since: string
 }
 
 export interface IMostDesired {
-  name: String
-  image: String
-  score: Number
+  name: string
+  image: string
+  score: number
+}
+
+export interface IVehicle {
+  evaluation_type: string
+  version_uuid: string
+  mileage: number
+  model_year: number
+  name: string
+  transmission_type: string
+  fuel_type: string
+  vehicle_uuid: string
+  model_name: string
+  manufacturing_year: number
+  version_name: string
+  image: string
+  brand_name: string
+  ad_selling_price: number
+  model_uuid: string
+  brand_uuid: string
 }

@@ -1,13 +1,17 @@
 <template>
   <b-tr class="review-row">
     <b-td class="review-row__col">
-      <VehicleInfo />
+      <VehicleInfo :vehicle="data" />
     </b-td>
     <b-td class="review-row__col">
       <div class="text-inter-small">ANÚNCIO</div>
-      <div class="review-row__price mt5">R$ 38.900</div>
+      <div class="review-row__price mt5">
+        R$ {{ data.ad_selling_price.toLocaleString() }}
+      </div>
       <div class="text-inter-small mt6">MÍNIMO ACEITO</div>
-      <div class="review-row__min mt5">R$ 36.900</div>
+      <div class="review-row__min mt5">
+        R$ {{ minAccepted.toLocaleString() }}
+      </div>
     </b-td>
     <b-td class="review-row__col">
       <div class="review-row__status">Aguardando precificação</div>
@@ -17,13 +21,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import VehicleInfo from '@/components/vehicles/VehicleInfo.vue'
+import { IVehicle } from '@/interfaces/dashboard'
 
 @Component<ReviewRow>({
   components: { VehicleInfo }
 })
-export default class ReviewRow extends Vue {}
+export default class ReviewRow extends Vue {
+  @Prop() readonly data!: IVehicle
+
+  get minAccepted(): number {
+    return Math.floor(
+      this.data.ad_selling_price - this.data.ad_selling_price * 0.05
+    )
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -58,7 +71,7 @@ export default class ReviewRow extends Vue {}
   }
 
   &__col {
-    padding: 20px 12px;
+    padding: 20px;
   }
 }
 </style>

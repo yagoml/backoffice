@@ -6,8 +6,8 @@
       <div class="text-label">{{ gadget.title }}</div>
       <div class="gadget-info__value">{{ gadget.value }}</div>
       <div class="d-flex align-items-center gadget-info__var">
-        <img v-if="gadget.percent > 0" src="/svg/ic-arrow-drop-up.svg" />
-        <img v-else src="/svg/ic-arrow-drop-down.svg" />
+        <IcArrowUp v-if="gadget.percent > 0" />
+        <IcArrowDown v-else class="ic-arrow-down" />
         <span class="percent" :class="{ negative: gadget.percent < 0 }">
           {{ Math.abs(gadget.percent) }}%
         </span>
@@ -27,14 +27,18 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { IGadgetInfo } from '@/interfaces/dashboard'
+import IcArrowUp from '@/assets/svg/ic-arrow-drop-up.svg'
+import IcArrowDown from '@/assets/svg/ic-arrow-drop-down.svg'
 
-@Component
+@Component<GadgetInfo>({
+  components: { IcArrowUp, IcArrowDown }
+})
 export default class GadgetInfo extends Vue {
   @Prop() readonly gadget!: IGadgetInfo
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .gadget-info {
   padding: 15px 20px;
   height: 110px;
@@ -63,6 +67,16 @@ export default class GadgetInfo extends Vue {
       font: 11px/1.45 'Inter';
       opacity: 0.5;
       color: rgba(0, 0, 0, 0.87);
+    }
+
+    .ic-arrow-down {
+      g {
+        opacity: 1;
+      }
+
+      g > g {
+        fill: #fc4a40;
+      }
     }
   }
 

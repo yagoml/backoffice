@@ -10,6 +10,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
 #app {
-  height: 100vh;
+  height: 100%;
 }
 </style>

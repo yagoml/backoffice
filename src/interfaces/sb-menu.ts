@@ -1,5 +1,5 @@
 export interface ISBMenuItem {
-  copy: String
-  icon: String
-  disabled?: Boolean
+  copy: string
+  icon: string
+  disabled?: boolean
 }

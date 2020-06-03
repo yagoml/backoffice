@@ -1,4 +1,5 @@
 import { IGadgetInfo, IMostDesired } from '@/interfaces/dashboard'
+import axios from 'axios'
 
 export default {
   namespaced: true,
@@ -32,9 +33,26 @@ export default {
       { name: 'Onix', image: '/brands/chevrolet.png', score: 183 },
       { name: 'Renegade', image: '/brands/jeep.png', score: 125 },
       { name: 'HB20', image: '/brands/hyundai.png', score: 197 }
-    ] as IMostDesired[]
+    ] as IMostDesired[],
+    vehicles: []
   },
   getters: {},
-  actions: {},
-  mutations: {}
+  actions: {
+    async getVehicles({ commit }) {
+      try {
+        return axios
+          .get('http://www.mocky.io/v2/5eb553df31000060006994a8')
+          .then(response => {
+            commit('setVehicles', response.data)
+          })
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  },
+  mutations: {
+    setVehicles(state, vehicles) {
+      state.vehicles = vehicles
+    }
+  }
 }

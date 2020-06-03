@@ -1,23 +1,28 @@
 <template>
   <div class="d-flex align-items-center vehicle-info">
-    <img
-      class="mr10 vehicle-info__img"
-      src="https://d3istz5qdrltsq.cloudfront.net/inventory/images/vehicles/6bf5ccd9-17ef-455c-aef9-c1b797329936/showroom/external/front_right_10x.jpeg"
-    />
+    <img class="mr10 vehicle-info__img" :src="vehicle.image" />
     <div class="vehicle-info__data">
-      <div class="name">JEEP COMPASS</div>
-      <div class="text-inter-small mt5">GDL8019</div>
-      <div class="text-inter-small mt5">2018 - Diesel</div>
-      <div class="text-inter-small mt5">Automático - 70.972 km</div>
+      <div class="name">{{ vehicle.brand_name }} {{ vehicle.model_name }}</div>
+      <div class="text-inter-small mt5">{{ vehicle.version_name }}</div>
+      <div class="text-inter-small mt5">
+        {{ vehicle.model_year }} - {{ vehicle.fuel_type }}
+      </div>
+      <div class="text-inter-small mt5">
+        {{ vehicle.transmission_type }} -
+        {{ vehicle.mileage.toLocaleString() }} km
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { IVehicle } from '@/interfaces/dashboard'
 
 @Component
-export default class VehicleInfo extends Vue {}
+export default class VehicleInfo extends Vue {
+  @Prop() readonly vehicle!: IVehicle
+}
 </script>
 
 <style scoped lang="scss">
