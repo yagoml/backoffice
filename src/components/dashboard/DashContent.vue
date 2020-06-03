@@ -16,11 +16,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import GadgetInfo from '@/components/vehicles/GadgetInfo.vue'
+import GadgetInfo from '@/components/dashboard/GadgetInfo.vue'
 import { IGadgetInfo } from '@/interfaces'
-import IcDirectionsCar from '../../public/svg/ic-directions-car-blue.svg'
-import IcDevices from '../../public/svg/ic-important-devices.svg'
-import IcDollar from '../../public/svg/ic-attach-money.svg'
+import IcDirectionsCar from '@/assets/svg/ic-directions-car-blue.svg'
+import IcDevices from '@/assets/svg/ic-important-devices.svg'
+import IcDollar from '@/assets/svg/ic-attach-money.svg'
 
 @Component<DashContent>({
   components: { GadgetInfo, IcDirectionsCar, IcDevices, IcDollar }

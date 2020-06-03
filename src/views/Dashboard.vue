@@ -11,7 +11,7 @@
 <script>
 import AppHeader from '@/components/AppHeader'
 import SidebarMenu from '@/components/SidebarMenu'
-import DashContent from '@/components/DashContent'
+import DashContent from '@/components/dashboard/DashContent'
 
 export default {
   name: 'Dashboard',

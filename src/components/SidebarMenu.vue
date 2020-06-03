@@ -37,12 +37,12 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { ISBMenuItem } from '@/interfaces'
 import Avatar from '@/components/user/Avatar.vue'
-import IcLogout from '../../public/svg/ic-logout.svg'
-import IcHome from '../../public/svg/ic-home.svg'
-import IcPerson from '../../public/svg/ic-person.svg'
-import IcVectorTriangle from '../../public/svg/ic-vector-triangle.svg'
-import IcDirectionsCar from '../../public/svg/ic-directions-car.svg'
-import IcAccountBalanceWallet from '../../public/svg/ic-account-balance-wallet.svg'
+import IcLogout from '@/assets/svg/ic-logout.svg'
+import IcHome from '@/assets/svg/ic-home.svg'
+import IcPerson from '@/assets/svg/ic-person.svg'
+import IcVectorTriangle from '@/assets/svg/ic-vector-triangle.svg'
+import IcDirectionsCar from '@/assets/svg/ic-directions-car.svg'
+import IcAccountBalanceWallet from '@/assets/svg/ic-account-balance-wallet.svg'
 
 @Component<SidebarMenu>({
   components: {
