@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ISBMenuItem } from '@/interfaces'
+import { ISBMenuItem } from '@/interfaces/sb-menu'
 import Avatar from '@/components/user/Avatar.vue'
 import IcLogout from '@/assets/svg/ic-logout.svg'
 import IcHome from '@/assets/svg/ic-home.svg'

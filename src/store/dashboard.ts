@@ -1,4 +1,4 @@
-import { IGadgetInfo } from '@/interfaces'
+import { IGadgetInfo, IMostDesired } from '@/interfaces/dashboard'
 
 export default {
   namespaced: true,
@@ -25,7 +25,14 @@ export default {
         icon: 'dollar',
         since: 'este mês'
       }
-    ] as IGadgetInfo[]
+    ] as IGadgetInfo[],
+    mostDesired: [
+      { name: 'HB20', image: '.jpg', score: 197 },
+      { name: 'Onix', image: '.jpg', score: 183 },
+      { name: 'Renegade', image: '.jpg', score: 125 },
+      { name: 'T-Cross', image: '.jpg', score: 109 },
+      { name: 'Kicks', image: '.jpg', score: 86 }
+    ] as IMostDesired[]
   },
   getters: {},
   actions: {},

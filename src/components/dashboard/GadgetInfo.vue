@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { IGadgetInfo } from '@/interfaces'
+import { IGadgetInfo } from '@/interfaces/dashboard'
 
 @Component
 export default class GadgetInfo extends Vue {
