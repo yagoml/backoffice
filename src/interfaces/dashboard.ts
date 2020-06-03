@@ -30,3 +30,9 @@ export interface IVehicle {
   model_uuid: string
   brand_uuid: string
 }
+
+export interface IChartLegend {
+  label: string
+  percent: number
+  color: string
+}

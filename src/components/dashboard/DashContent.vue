@@ -17,6 +17,7 @@
       </b-col>
       <b-col cols="12" lg="4">
         <MostDesired />
+        <PricesChart class="mt30" />
       </b-col>
     </b-row>
   </b-container>
@@ -31,6 +32,7 @@ import IcDevices from '@/assets/svg/ic-important-devices.svg'
 import IcDollar from '@/assets/svg/ic-attach-money.svg'
 import LatestReviews from '@/components/dashboard/LatestReviews.vue'
 import MostDesired from '@/components/dashboard/MostDesired.vue'
+import PricesChart from '@/components/dashboard/PricesChart.vue'
 
 @Component<DashContent>({
   components: {
@@ -39,7 +41,8 @@ import MostDesired from '@/components/dashboard/MostDesired.vue'
     IcDevices,
     IcDollar,
     LatestReviews,
-    MostDesired
+    MostDesired,
+    PricesChart
   }
 })
 export default class DashContent extends Vue {
