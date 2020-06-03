@@ -10,7 +10,7 @@
       v-if="loading"
       class="d-flex align-items-center justify-content-center loading"
     >
-      <b-spinner label="Carregando..."></b-spinner>
+      <b-spinner label="Carregando..." variant="primary"></b-spinner>
     </div>
     <b-table-simple v-else hover responsive>
       <b-thead>
