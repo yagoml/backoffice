@@ -1,7 +1,9 @@
 <template>
-  <div class="d-flex justify-content-between align-items-center gadget-info">
+  <div
+    class="d-flex justify-content-between align-items-center white-container gadget-info"
+  >
     <div>
-      <div class="gadget-info__title">{{ gadget.title }}</div>
+      <div class="text-label">{{ gadget.title }}</div>
       <div class="gadget-info__value">{{ gadget.value }}</div>
       <div class="d-flex align-items-center gadget-info__var">
         <img v-if="gadget.percent > 0" src="/svg/ic-arrow-drop-up.svg" />
@@ -35,18 +37,7 @@ export default class GadgetInfo extends Vue {
 <style scoped lang="scss">
 .gadget-info {
   padding: 15px 20px;
-  background-color: white;
   height: 110px;
-  border-radius: 4px;
-  border: solid 1px rgba(0, 0, 0, 0.12);
-
-  &__title {
-    font: 500 10px 'Inter';
-    color: rgba(0, 0, 0, 0.87);
-    line-height: 1.6;
-    letter-spacing: 1.5px;
-    opacity: 0.5;
-  }
 
   &__value {
     margin-top: 6px;

@@ -1,6 +1,6 @@
 <template>
-  <b-container fluid>
-    <b-row class="dash-content">
+  <b-container fluid class="dash-content">
+    <b-row>
       <b-col v-for="(gadget, i) in gadgets" :key="i" cols="12" lg="4">
         <GadgetInfo :gadget="gadget">
           <template slot="icon">
@@ -9,6 +9,11 @@
             <IcDollar v-if="gadget.icon === 'dollar'" />
           </template>
         </GadgetInfo>
+      </b-col>
+    </b-row>
+    <b-row class="mt30">
+      <b-col cols="12" lg="8">
+        <LatestReviews />
       </b-col>
     </b-row>
   </b-container>
@@ -21,39 +26,26 @@ import { IGadgetInfo } from '@/interfaces'
 import IcDirectionsCar from '@/assets/svg/ic-directions-car-blue.svg'
 import IcDevices from '@/assets/svg/ic-important-devices.svg'
 import IcDollar from '@/assets/svg/ic-attach-money.svg'
+import LatestReviews from '@/components/dashboard/LatestReviews.vue'
 
 @Component<DashContent>({
-  components: { GadgetInfo, IcDirectionsCar, IcDevices, IcDollar }
+  components: {
+    GadgetInfo,
+    IcDirectionsCar,
+    IcDevices,
+    IcDollar,
+    LatestReviews
+  }
 })
 export default class DashContent extends Vue {
-  gadgets: IGadgetInfo[] = [
-    {
-      title: 'AVALIAÇÕES HOJE',
-      value: 29,
-      percent: 36,
-      icon: 'car',
-      since: 'desde ontem'
-    },
-    {
-      title: 'CARROS PUBLICADOS',
-      value: 397,
-      percent: 4,
-      icon: 'devices',
-      since: 'este mês'
-    },
-    {
-      title: 'TICKET MÉDIO DO ESTOQUE',
-      value: 'R$ 42.567',
-      percent: -6,
-      icon: 'dollar',
-      since: 'este mês'
-    }
-  ]
+  get gadgets(): IGadgetInfo[] {
+    return this.$store.state.dashboard.gadgets
+  }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .dash-content {
-  padding: 30px 40px 30px 95px;
+  padding: 30px 55px 30px 110px;
 }
 </style>
