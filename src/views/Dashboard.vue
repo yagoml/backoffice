@@ -22,7 +22,6 @@ export default {
 
 <style lang="scss">
 .dashboard {
-  background-color: #f3f4f6;
   height: 100%;
 }
 </style>

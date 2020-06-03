@@ -1,8 +1,18 @@
 <template>
   <div id="app">
     <router-view />
+    <Copyright />
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+import Copyright from '@/components/Copyright.vue'
+
+export default Vue.extend({
+  components: { Copyright }
+})
+</script>
 
 <style lang="scss">
 @import './main.scss';
@@ -11,5 +21,6 @@
 
 #app {
   height: 100%;
+  background-color: #f3f4f6;
 }
 </style>
