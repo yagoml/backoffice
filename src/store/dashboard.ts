@@ -27,11 +27,11 @@ export default {
       }
     ] as IGadgetInfo[],
     mostDesired: [
-      { name: 'HB20', image: '.jpg', score: 197 },
-      { name: 'Onix', image: '.jpg', score: 183 },
-      { name: 'Renegade', image: '.jpg', score: 125 },
-      { name: 'T-Cross', image: '.jpg', score: 109 },
-      { name: 'Kicks', image: '.jpg', score: 86 }
+      { name: 'T-Cross', image: '/brands/volkswagen.png', score: 109 },
+      { name: 'Kicks', image: '/brands/nissan.png', score: 86 },
+      { name: 'Onix', image: '/brands/chevrolet.png', score: 183 },
+      { name: 'Renegade', image: '/brands/jeep.png', score: 125 },
+      { name: 'HB20', image: '/brands/hyundai.png', score: 197 }
     ] as IMostDesired[]
   },
   getters: {},
