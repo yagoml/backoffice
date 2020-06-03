@@ -6,17 +6,25 @@
       <img src="logo.svg" />
       <div class="backoffice">BACKOFFICE</div>
     </div>
+    <div>
+      <button class="btn btn--search" title="Pesquisar"><IcSearch /></button>
+      <button class="btn" title="Notificações"><IcNotifications /></button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import IcSearch from '@/assets/svg/ic-search.svg'
+import IcNotifications from '@/assets/svg/ic-notifications.svg'
 
-@Component
+@Component<AppHeader>({
+  components: { IcSearch, IcNotifications }
+})
 export default class AppHeader extends Vue {}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .app-header {
   height: 70px;
   background-color: white;
@@ -31,6 +39,16 @@ export default class AppHeader extends Vue {}
       font: 500 10px 'Roboto';
       color: #a5abb7;
       line-height: 1;
+    }
+  }
+
+  .btn {
+    height: 50px;
+
+    &:hover {
+      g > path {
+        fill: #0065ff !important;
+      }
     }
   }
 }
