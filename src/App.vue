@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <SidebarMenu />
+    <AppHeader />
     <router-view />
     <Copyright />
   </div>
@@ -7,10 +9,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import AppHeader from '@/components/AppHeader'
+import SidebarMenu from '@/components/SidebarMenu'
 import Copyright from '@/components/Copyright.vue'
 
 export default Vue.extend({
-  components: { Copyright }
+  components: { Copyright, AppHeader, SidebarMenu }
 })
 </script>
 

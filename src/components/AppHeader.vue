@@ -30,6 +30,8 @@ export default class AppHeader extends Vue {}
   background-color: white;
   padding: 0 34px 0 110px;
   box-shadow: 0 1px 0 0 #e0e0e0;
+  position: fixed;
+  z-index: 1000;
 
   &__logo {
     max-height: 34px;

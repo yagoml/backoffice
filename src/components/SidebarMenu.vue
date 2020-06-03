@@ -74,7 +74,7 @@ export default class SidebarMenu extends Vue {
   height: 100%;
   box-shadow: 1px 0 0 0 #e0e0e0;
   background-color: white;
-  z-index: 1000;
+  z-index: 2000;
   top: 0;
   left: 0;
   padding: 45px 15px;
