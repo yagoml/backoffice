@@ -25,6 +25,9 @@ export default Vue.extend({
 
 #app {
   height: 100%;
+}
+
+body {
   background-color: #f3f4f6;
 }
 </style>

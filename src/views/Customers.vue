@@ -1,15 +1,15 @@
 <template>
   <b-container fluid class="bo-content dashboard">
-    <CustomersTable />
+    <CustomersData />
   </b-container>
 </template>
 
 <script lang="ts">
-import CustomersTable from '@/components/customers/CustomersTable.vue'
+import CustomersData from '@/components/customers/CustomersData.vue'
 
 export default {
   name: 'Customers',
 
-  components: { CustomersTable }
+  components: { CustomersData }
 }
 </script>
