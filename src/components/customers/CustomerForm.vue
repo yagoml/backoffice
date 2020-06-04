@@ -131,7 +131,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ICustomerData, ICustomerErrors } from '@/interfaces/customers'
+import {
+  ICustomerData,
+  ICustomerErrors,
+  ICustomer
+} from '@/interfaces/customers'
 import { mask } from 'vue-the-mask'
 
 @Component<CustomerForm>({
@@ -159,6 +163,10 @@ export default class CustomerForm extends Vue {
     return Object.values(this.errors).filter(e => e != null).length > 0
   }
 
+  get lsData() {
+    return JSON.parse(localStorage.getItem('customersData') || '')
+  }
+
   trySubmit() {
     this.checkName('firstName', 'Nome')
     this.checkName('lastName', 'Sobrenome')
@@ -166,12 +174,28 @@ export default class CustomerForm extends Vue {
     this.checkPhone(0)
     if (this.data.phones[1].length) this.checkPhone(1)
     this.checkPostalCode()
-
-    if (this.hasErrors) this.submit()
+    if (!this.hasErrors) this.submit()
   }
 
   submit() {
-    return true
+    const p = this.data.phones
+    let phone = p[0]
+    if (p[1].length) phone += ', ' + p[1]
+    const data: ICustomer = {
+      name: this.data.firstName + ' ' + this.data.lastName,
+      email: this.data.email,
+      phone: phone
+    }
+    if (this.data.postalCode.length) data.postalCode = this.data.postalCode
+    this.addCustomer(data)
+    this.$router.push({
+      path: '/customers'
+    })
+  }
+
+  addCustomer(data: ICustomer) {
+    this.lsData.unshift(data)
+    localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 
   checkName(key: string, name: string) {
@@ -222,12 +246,8 @@ export default class CustomerForm extends Vue {
 
   checkPostalCode() {
     this.errors.postalCode = null
-
-    if (!this.data.postalCode.length)
-      return (this.errors.postalCode = 'CEP é obrigatório')
-
+    if (!this.data.postalCode.length) return
     const rgx = new RegExp(/\d{5}-\d{3}/)
-
     if (this.data.postalCode.length < 9 || !rgx.test(this.data.postalCode))
       this.errors.postalCode = 'CEP inválido'
   }

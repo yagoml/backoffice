@@ -3,6 +3,7 @@ export interface ICustomer {
   lead?: boolean
   phone: string
   email: string
+  postalCode?: string
 }
 
 export interface ICustomerData {

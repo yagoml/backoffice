@@ -84,7 +84,7 @@
                   />
                 </template>
                 <b-dropdown-item>Editar</b-dropdown-item>
-                <b-dropdown-item>Excluir</b-dropdown-item>
+                <b-dropdown-item @click="tryDelete(i)">Excluir</b-dropdown-item>
               </b-dropdown>
             </b-td>
           </b-tr>
@@ -122,15 +122,30 @@ export default class CustomersData extends Vue {
   iconsSize = { width: '24px', height: '24px' }
   checked = []
   allChecked = false
+  customers = this.lsData
 
-  get customers() {
-    return this.$store.state.customers.customers
+  get lsData() {
+    return JSON.parse(localStorage.getItem('customersData') || '')
   }
 
   get customersFiltered() {
     return this.customers.filter((c: ICustomer) => {
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
+  }
+
+  created() {
+    if (localStorage.getItem('customersData')) return
+    localStorage.setItem(
+      'customersData',
+      JSON.stringify(this.$store.state.customers.customers)
+    )
+  }
+
+  tryDelete(index: number) {
+    this.lsData.splice(index, 1)
+    this.customers = this.lsData
+    localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 }
 </script>
