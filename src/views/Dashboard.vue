@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
 import GadgetInfo from '@/components/dashboard/GadgetInfo.vue'
 import { IGadgetInfo } from '@/interfaces/dashboard'
 import IcDirectionsCar from '@/assets/svg/ic-directions-car-blue.svg'
@@ -34,7 +33,7 @@ import LatestReviews from '@/components/dashboard/LatestReviews.vue'
 import MostDesired from '@/components/dashboard/MostDesired.vue'
 import PricesChart from '@/components/dashboard/PricesChart.vue'
 
-@Component<Dashboard>({
+export default {
   components: {
     GadgetInfo,
     IcDirectionsCar,
@@ -43,11 +42,12 @@ import PricesChart from '@/components/dashboard/PricesChart.vue'
     LatestReviews,
     MostDesired,
     PricesChart
-  }
-})
-export default class Dashboard extends Vue {
-  get gadgets(): IGadgetInfo[] {
-    return this.$store.state.dashboard.gadgets
+  },
+
+  computed: {
+    gadgets(): IGadgetInfo[] {
+      return this.$store.state.dashboard.gadgets
+    }
   }
 }
 </script>

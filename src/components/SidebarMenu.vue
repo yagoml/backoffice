@@ -11,23 +11,27 @@
       </div>
     </div>
     <ul class="sidebar-menu__items">
-      <li
-        class="d-flex align-items-center text-inter-medium item"
-        :class="{ disabled: item.disabled }"
-        v-for="(item, i) in items"
-        :key="i"
-      >
-        <IcHome v-if="item.icon === 'home'" class="icon" />
-        <IcPerson v-if="item.icon === 'person'" class="icon" />
-        <IcVectorTriangle v-if="item.icon === 'vector-triangle'" class="icon" />
-        <IcDirectionsCar v-if="item.icon === 'directions-car'" class="icon" />
-        <IcAccountBalanceWallet
-          v-if="item.icon === 'account-balance-wallet'"
-          class="icon"
-        />
-        <span class="item__copy">
-          {{ item.copy }}
-        </span>
+      <li v-for="(item, i) in items" :key="i">
+        <router-link
+          :to="item.path"
+          class="d-flex align-items-center text-inter-medium item"
+          :class="{ disabled: item.disabled }"
+        >
+          <IcHome v-if="item.icon === 'home'" class="icon" />
+          <IcPerson v-if="item.icon === 'person'" class="icon" />
+          <IcVectorTriangle
+            v-if="item.icon === 'vector-triangle'"
+            class="icon"
+          />
+          <IcDirectionsCar v-if="item.icon === 'directions-car'" class="icon" />
+          <IcAccountBalanceWallet
+            v-if="item.icon === 'account-balance-wallet'"
+            class="icon"
+          />
+          <span class="item__copy">
+            {{ item.copy }}
+          </span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -58,11 +62,16 @@ import IcAccountBalanceWallet from '@/assets/svg/ic-account-balance-wallet.svg'
 export default class SidebarMenu extends Vue {
   imgSrc = './svg/ic-home.svg'
   items: ISBMenuItem[] = [
-    { copy: 'Início', icon: 'home' },
-    { copy: 'Clientes', icon: 'person' },
-    { copy: 'Veículos', icon: 'directions-car' },
-    { copy: 'Triangulação', icon: 'vector-triangle' },
-    { copy: 'Financeiro', icon: 'account-balance-wallet', disabled: true }
+    { copy: 'Início', icon: 'home', path: '/' },
+    { copy: 'Clientes', icon: 'person', path: 'customers' },
+    { copy: 'Veículos', icon: 'directions-car', path: 'customers' },
+    { copy: 'Triangulação', icon: 'vector-triangle', path: 'customers' },
+    {
+      copy: 'Financeiro',
+      icon: 'account-balance-wallet',
+      path: '#',
+      disabled: true
+    }
   ]
 }
 </script>
@@ -127,6 +136,7 @@ export default class SidebarMenu extends Vue {
       &:hover {
         background-color: #f3f7ff;
         color: #0065ff;
+        text-decoration: none;
 
         .icon {
           g {
