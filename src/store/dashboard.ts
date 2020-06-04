@@ -6,21 +6,21 @@ export default {
   state: {
     gadgets: [
       {
-        title: 'AVALIAÇÕES HOJE',
+        title: 'Avaliações hoje',
         value: 29,
         percent: 36,
         icon: 'car',
         since: 'desde ontem'
       },
       {
-        title: 'CARROS PUBLICADOS',
+        title: 'Carros publicados',
         value: 397,
         percent: 4,
         icon: 'devices',
         since: 'este mês'
       },
       {
-        title: 'TICKET MÉDIO DO ESTOQUE',
+        title: 'Ticket médio do estoque',
         value: 'R$ 42.567',
         percent: -6,
         icon: 'dollar',

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex justify-content-between align-items-center white-container gadget-info"
+    class="d-flex justify-content-between align-items-center bo-container gadget-info"
   >
     <div>
       <div class="text-label">{{ gadget.title }}</div>

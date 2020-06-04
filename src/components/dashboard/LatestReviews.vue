@@ -1,5 +1,5 @@
 <template>
-  <div class="white-container latest-reviews">
+  <div class="bo-container latest-reviews">
     <div
       class="d-flex justify-content-between align-items-center latest-reviews__header"
     >

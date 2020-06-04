@@ -1,5 +1,5 @@
 <template>
-  <div class="white-container prices-chart">
+  <div class="bo-container prices-chart">
     <div class="d-flex align-items-center text-inter-medium mb20">
       Preços - Dryve x KBB <IcHelp class="ml-1" id="help" />
     </div>

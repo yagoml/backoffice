@@ -1,5 +1,5 @@
 <template>
-  <div class="white-container most-desired">
+  <div class="bo-container most-desired">
     <div class="text-inter-medium mb-3">
       Top intenções de compra
     </div>
