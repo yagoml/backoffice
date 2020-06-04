@@ -1,4 +1,8 @@
+@import 'src/variables';
+@import 'src/mixins';
+
 .bo-content {
+  min-height: calc(100vh - 62px);
   padding: 100px 55px 30px 110px;
 }
 
@@ -57,12 +61,6 @@
   text-transform: uppercase;
 }
 
-@mixin hover-shadow {
-  -webkit-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.3);
-}
-
 // Buttons
 .bo-btn {
   padding: 5px 15px;
@@ -86,8 +84,9 @@
     border: 1px solid #6200ee;
 
     &:hover {
-      color: white;
       @include hover-shadow;
+      color: white;
+      text-decoration: none;
     }
   }
 
@@ -97,8 +96,8 @@
     color: #6200ee;
 
     &:hover {
-      color: #6200ee;
       @include hover-shadow;
+      color: #6200ee;
     }
   }
 }
@@ -143,4 +142,8 @@
 
 .mb30 {
   margin-bottom: 30px !important;
+}
+
+.p20 {
+  padding: 20px;
 }

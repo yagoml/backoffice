@@ -22,9 +22,12 @@
           <BIconX :style="iconsSize" />
         </button>
       </div>
-      <button class="bo-btn bo-btn--primary ml-auto btn-add">
+      <router-link
+        to="add-customer"
+        class="bo-btn bo-btn--primary ml-auto btn-add"
+      >
         <BIconPlus :style="iconsSize" class="mr-1" /> Adicionar
-      </button>
+      </router-link>
     </div>
     <div v-if="customersFiltered.length" class="bo-container">
       <b-table-simple hover responsive>
@@ -134,8 +137,6 @@ export default class CustomersData extends Vue {
 
 <style scoped lang="scss">
 .customers-data {
-  min-height: 100vh;
-
   &__th {
     padding: 16px 20px;
     border: 0;
