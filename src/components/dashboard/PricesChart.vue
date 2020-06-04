@@ -1,6 +1,6 @@
 <template>
   <div class="bo-container prices-chart">
-    <div class="d-flex align-items-center text-inter-medium mb20">
+    <div class="d-flex align-items-center text-medium mb20">
       Preços - Dryve x KBB <IcHelp class="ml-1" id="help" />
     </div>
     <b-tooltip target="help" triggers="hover">

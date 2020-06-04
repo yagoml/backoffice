@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center sidebar-menu__user-info">
       <Avatar />
       <div class="user-name">
-        <div class="text-inter-medium">Meghan H. Vega</div>
+        <div class="text-medium">Meghan H. Vega</div>
         <a href="#" class="d-flex align-items-center logout">
           <IcLogout class="mr-1" />
           SAIR
@@ -14,7 +14,7 @@
       <li v-for="(item, i) in items" :key="i">
         <router-link
           :to="item.path"
-          class="d-flex align-items-center text-inter-medium item"
+          class="d-flex align-items-center text-medium item"
           :class="{ disabled: item.disabled }"
         >
           <IcHome v-if="item.icon === 'home'" class="icon" />
@@ -64,8 +64,8 @@ export default class SidebarMenu extends Vue {
   items: ISBMenuItem[] = [
     { copy: 'Início', icon: 'home', path: '/' },
     { copy: 'Clientes', icon: 'person', path: 'customers' },
-    { copy: 'Veículos', icon: 'directions-car', path: 'customers' },
-    { copy: 'Triangulação', icon: 'vector-triangle', path: 'customers' },
+    { copy: 'Veículos', icon: 'directions-car', path: '#' },
+    { copy: 'Triangulação', icon: 'vector-triangle', path: '#' },
     {
       copy: 'Financeiro',
       icon: 'account-balance-wallet',

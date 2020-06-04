@@ -4,7 +4,7 @@
       class="d-flex justify-content-between align-items-center latest-reviews__header"
     >
       <div class="title">Últimas avaliações</div>
-      <div class="text-inter-medium">Hoje <IcArrowDown /></div>
+      <div class="text-medium">Hoje <IcArrowDown /></div>
     </div>
     <div
       v-if="loading"

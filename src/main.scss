@@ -8,19 +8,45 @@
   border: solid 1px rgba(0, 0, 0, 0.12);
 }
 
+.bo-tag {
+  padding: 7px 20px;
+  background-color: #f3f7ff;
+  border-radius: 13px;
+  color: #0065ff;
+  font: 12px/1 'Inter';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+
+  &--secondary {
+    border-radius: 13px;
+    color: #666666;
+    background-color: #f6f6f6;
+  }
+}
+
 // Texts
-.text-inter-medium {
+.text-medium {
   font: 500 14px 'Inter';
   color: rgba(0, 0, 0, 0.87);
   line-height: 1.14;
   letter-spacing: 0.1px;
 }
 
-.text-inter-small {
-  font: 10px/1 'Inter';
+.text-small {
+  font: 500 10px/1 'Inter';
   letter-spacing: 0.33px;
   color: #768095;
   text-transform: uppercase;
+}
+
+.text-small-sb {
+  font: 500 10px/1.6 'Inter';
+  letter-spacing: 1.5px;
+  color: rgba(0, 0, 0, 0.87);
+  text-transform: uppercase;
+  opacity: 0.5;
 }
 
 .text-label {

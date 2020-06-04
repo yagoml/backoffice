@@ -1,6 +1,6 @@
 <template>
   <div class="bo-container most-desired">
-    <div class="text-inter-medium mb-3">
+    <div class="text-medium mb-3">
       Top intenções de compra
     </div>
     <div
@@ -9,10 +9,10 @@
       class="d-flex align-items-center most-desired__line"
     >
       <img :src="`/images${model.image}`" class="most-desired__img mr15" />
-      <span class="text-inter-medium">
+      <span class="text-medium">
         {{ model.name }}
       </span>
-      <span class="text-inter-medium ml-auto most-desired__score">
+      <span class="text-medium ml-auto most-desired__score">
         {{ model.score }}
       </span>
     </div>

@@ -3,11 +3,11 @@
     <img class="mr10 vehicle-info__img" :src="vehicle.image" />
     <div class="vehicle-info__data">
       <div class="name">{{ vehicle.brand_name }} {{ vehicle.model_name }}</div>
-      <div class="text-inter-small mt5">{{ vehicle.version_name }}</div>
-      <div class="text-inter-small mt5">
+      <div class="text-small mt5">{{ vehicle.version_name }}</div>
+      <div class="text-small mt5">
         {{ vehicle.model_year }} - {{ vehicle.fuel_type }}
       </div>
-      <div class="text-inter-small mt5">
+      <div class="text-small mt5">
         {{ vehicle.transmission_type }} -
         {{ vehicle.mileage.toLocaleString() }} km
       </div>

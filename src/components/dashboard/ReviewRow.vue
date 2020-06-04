@@ -4,11 +4,11 @@
       <VehicleInfo :vehicle="data" />
     </b-td>
     <b-td class="review-row__col">
-      <div class="text-inter-small">ANÚNCIO</div>
+      <div class="text-small">ANÚNCIO</div>
       <div class="review-row__price mt5">
         R$ {{ data.ad_selling_price.toLocaleString() }}
       </div>
-      <div class="text-inter-small mt6">MÍNIMO ACEITO</div>
+      <div class="text-small mt6">MÍNIMO ACEITO</div>
       <div class="review-row__min mt5">
         R$ {{ minAccepted.toLocaleString() }}
       </div>

@@ -3,7 +3,7 @@
     <div
       v-for="(legend, i) in data"
       :key="i"
-      class="d-flex align-items-center mb10 text-inter-medium"
+      class="d-flex align-items-center mb10 text-medium"
     >
       <span
         class="chart-legend__color"
