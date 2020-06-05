@@ -12,6 +12,22 @@
   border: solid 1px rgba(0, 0, 0, 0.12);
 }
 
+.bo-table {
+  th {
+    padding: 16px 20px;
+    border: 0 !important;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  td {
+    vertical-align: middle;
+    padding: 19px 20px;
+  }
+}
+
 .bo-tag {
   padding: 7px 20px;
   background-color: #f3f7ff;
@@ -36,6 +52,30 @@
 }
 
 .btn {
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.page-title {
+  font: 500 20px/1.2 'Inter';
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.table-responsive {
+  margin: 0;
+}
+
+.bo-icon-hover {
+  &:hover {
+    g > path {
+      fill: #0065ff;
+    }
+  }
+}
+
+.form-control {
   &:focus {
     box-shadow: none;
   }
@@ -70,14 +110,6 @@
   letter-spacing: 1.5px;
   opacity: 0.5;
   text-transform: uppercase;
-}
-
-.bo-icon-hover {
-  &:hover {
-    g > path {
-      fill: #0065ff !important;
-    }
-  }
 }
 
 // Buttons

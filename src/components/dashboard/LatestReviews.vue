@@ -27,7 +27,9 @@
       </b-tbody>
     </b-table-simple>
     <div class="text-right latest-reviews__footer">
-      <a href="#" class="see-all">Ver tudo <IcArrowUp class="ic-arrow-up"/></a>
+      <router-link to="/vehicles" class="see-all">
+        Ver tudo <IcArrowUp class="ic-arrow-up" />
+      </router-link>
     </div>
   </div>
 </template>

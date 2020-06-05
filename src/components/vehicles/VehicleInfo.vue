@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { IVehicle } from '@/interfaces/dashboard'
+import { IVehicle } from '@/interfaces/vehicles'
 
 @Component
 export default class VehicleInfo extends Vue {

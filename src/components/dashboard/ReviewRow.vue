@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import VehicleInfo from '@/components/vehicles/VehicleInfo.vue'
-import { IVehicle } from '@/interfaces/dashboard'
+import { IVehicle } from '@/interfaces/vehicles'
 
 @Component<ReviewRow>({
   components: { VehicleInfo }

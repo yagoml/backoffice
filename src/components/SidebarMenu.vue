@@ -63,8 +63,8 @@ export default class SidebarMenu extends Vue {
   imgSrc = './svg/ic-home.svg'
   items: ISBMenuItem[] = [
     { copy: 'Início', icon: 'home', path: '/' },
-    { copy: 'Clientes', icon: 'person', path: 'customers' },
-    { copy: 'Veículos', icon: 'directions-car', path: '#' },
+    { copy: 'Clientes', icon: 'person', path: '/customers' },
+    { copy: 'Veículos', icon: 'directions-car', path: '/vehicles' },
     { copy: 'Triangulação', icon: 'vector-triangle', path: '#' },
     {
       copy: 'Financeiro',

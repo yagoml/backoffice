@@ -55,13 +55,13 @@
           <BIconTrash :style="{ width: '20px', height: '20px' }" class="mr-1" />
           Excluir ({{ this.selected.length }})
         </button>
-        <router-link to="add-customer" class="bo-btn bo-btn--primary btn-add">
+        <router-link to="customer-form" class="bo-btn bo-btn--primary btn-add">
           <BIconPlus :style="iconsSize" class="mr-1" /> Adicionar
         </router-link>
       </div>
     </div>
     <div v-if="customersFiltered.length" class="bo-container">
-      <b-table-simple hover responsive>
+      <b-table-simple hover responsive class="bo-table">
         <b-thead>
           <b-th class="text-small-sb customers-data__th op1">
             <b-form-checkbox
@@ -79,14 +79,14 @@
         </b-thead>
         <b-tbody>
           <b-tr v-for="(customer, i) in customersFiltered" :key="i">
-            <b-td class="text-medium customers-data__td">
+            <b-td class="text-medium">
               <b-form-checkbox
                 v-model="checked[i]"
                 :value="i"
                 :unchecked-value="null"
               ></b-form-checkbox>
             </b-td>
-            <b-td class="text-medium customers-data__td">
+            <b-td class="text-medium">
               {{ customer.name }}
             </b-td>
             <b-td class="customers-data__td">
@@ -95,13 +95,13 @@
               </span>
               <span v-else class="bo-tag">Cliente</span>
             </b-td>
-            <b-td class="text-medium customers-data__td">
+            <b-td class="text-medium">
               {{ customer.phone }}
             </b-td>
-            <b-td class="text-medium customers-data__td">
+            <b-td class="text-medium">
               {{ customer.email }}
             </b-td>
-            <b-td class="d-flex justify-content-end customers-data__td">
+            <b-td class="d-flex justify-content-end">
               <b-dropdown
                 :id="`dropdown-${i}`"
                 variant="link"
@@ -309,7 +309,7 @@ export default class CustomersData extends Vue {
 
   edit(index: number) {
     this.$router.push({
-      path: '/add-customer?index=' + index
+      path: '/customer-form?index=' + index
     })
   }
 
@@ -338,17 +338,9 @@ export default class CustomersData extends Vue {
 
 .customers-data {
   &__th {
-    padding: 16px 20px;
-    border: 0;
-
     &.op1 {
       opacity: 1;
     }
-  }
-
-  &__td {
-    vertical-align: middle;
-    padding: 19px 20px;
   }
 
   &__actions {
@@ -382,6 +374,10 @@ export default class CustomersData extends Vue {
     color: rgba(0, 0, 0, 0.6);
     letter-spacing: 0.1px;
     font: 500 14px/1.71 'Inter';
+
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.38);
+    }
   }
 
   &__empty {
