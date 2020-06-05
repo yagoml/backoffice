@@ -5,8 +5,14 @@ export interface IVehicleTable {
   year: string
   fuel: string
   transmission: string
-  km: number
-  price: number
+  km: string
+  price: string
+}
+
+export interface IVehicleTableField {
+  key: string
+  label: string
+  sortable: boolean
 }
 
 export interface IVehicle {

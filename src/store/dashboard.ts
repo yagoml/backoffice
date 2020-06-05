@@ -1,5 +1,6 @@
 import { IGadgetInfo, IMostDesired } from '@/interfaces/dashboard'
 import axios from 'axios'
+import { IVehicle } from '@/interfaces/vehicles'
 
 export default {
   namespaced: true,
@@ -38,7 +39,7 @@ export default {
   },
   getters: {},
   actions: {
-    async getVehicles({ commit }) {
+    async getVehicles({ commit }: any) {
       try {
         return axios
           .get('http://www.mocky.io/v2/5eb553df31000060006994a8')
@@ -51,7 +52,7 @@ export default {
     }
   },
   mutations: {
-    setVehicles(state, vehicles) {
+    setVehicles(state: any, vehicles: IVehicle) {
       state.vehicles = vehicles
     }
   }

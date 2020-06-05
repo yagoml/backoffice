@@ -19,11 +19,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import {
+  IVehicleTable,
+  IVehicleTableField,
+  IVehicle
+} from '@/interfaces/vehicles'
 
 @Component
 export default class VehiclesTable extends Vue {
   loading = false
-  fields = [
+  fields: IVehicleTableField[] = [
     {
       key: 'brand',
       label: 'Marca',
@@ -65,9 +70,9 @@ export default class VehiclesTable extends Vue {
       sortable: true
     }
   ]
-  items = []
+  items: IVehicleTable[] = []
 
-  get vehicles() {
+  get vehicles(): IVehicle[] {
     return this.$store.state.dashboard.vehicles
   }
 

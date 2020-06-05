@@ -25,13 +25,13 @@
 
 <script lang="ts">
 import GadgetInfo from '@/components/dashboard/GadgetInfo.vue'
-import { IGadgetInfo } from '@/interfaces/dashboard'
 import IcDirectionsCar from '@/assets/svg/ic-directions-car-blue.svg'
 import IcDevices from '@/assets/svg/ic-important-devices.svg'
 import IcDollar from '@/assets/svg/ic-attach-money.svg'
 import LatestReviews from '@/components/dashboard/LatestReviews.vue'
 import MostDesired from '@/components/dashboard/MostDesired.vue'
 import PricesChart from '@/components/dashboard/PricesChart.vue'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -45,9 +45,7 @@ export default {
   },
 
   computed: {
-    gadgets(): IGadgetInfo[] {
-      return this.$store.state.dashboard.gadgets
-    }
+    ...mapState('dashboard', ['gadgets'])
   }
 }
 </script>

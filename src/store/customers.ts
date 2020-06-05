@@ -1,4 +1,3 @@
-import { ICustomer } from '@/interfaces/customers'
 import Customers from '@/assets/customers.json'
 
 export default {
