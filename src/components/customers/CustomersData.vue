@@ -172,6 +172,7 @@ export default class CustomersData extends Vue {
       if (this.leadFilter.length) {
         const val = this.leadFilter === 'l'
         if (val && !c.lead) return false
+        if (!val && c.lead) return false
       }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
