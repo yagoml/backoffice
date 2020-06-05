@@ -183,12 +183,10 @@ export default class CustomerForm extends Vue {
     if (this.data[key].length < 3)
       return (this.errors[key] = name + ' deve ter pelo menos 3 caracteres')
 
-    const rgx = new RegExp(
-      /[a-zzéúíóáèùìòàõãñêûîôâëyüïöäA-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ]*/g
-    )
+    const rgx = new RegExp(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/)
 
-    if (!rgx.test(this.data.firstName))
-      this.errors.firstName = name + ' inválido'
+    if (!rgx.test(this.data[key].toString()))
+      this.errors[key] = name + ' inválido'
   }
 
   checkEmail() {

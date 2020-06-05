@@ -5,7 +5,7 @@
         <b-th class="text-small-sb customers-table__th op1">
           <b-form-checkbox
             v-model="allChecked"
-            @input="$emit('checkAll', allChecked)"
+            @input="$emit('toggleCheckAll', allChecked)"
             :value="true"
             :unchecked-value="false"
           ></b-form-checkbox>
@@ -54,7 +54,9 @@
                   :id="`dropdown-${i}`"
                 />
               </template>
-              <b-dropdown-item @click="edit(i)">Editar</b-dropdown-item>
+              <b-dropdown-item @click="$emit('edit', i)">
+                Editar
+              </b-dropdown-item>
               <b-dropdown-item @click="$emit('tryDelete', i)">
                 Excluir
               </b-dropdown-item>
@@ -67,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { ICustomer } from '@/interfaces/customers'
 import { BIconThreeDotsVertical } from 'bootstrap-vue'
 
@@ -77,14 +79,13 @@ import { BIconThreeDotsVertical } from 'bootstrap-vue'
 export default class CustomersTable extends Vue {
   @Prop() checkedList!: number[]
   @Prop() customers!: ICustomer[]
+  @Prop() allCheckedState!: boolean
   allChecked = false
-  checked = []
+  @Prop() checked!: number[]
 
-  edit(index: number) {
-    this.$router.push({
-      path: '/customer-form',
-      query: { index: index.toString() }
-    })
+  @Watch('allCheckedState')
+  onStateChange(value: boolean) {
+    this.allChecked = value
   }
 }
 </script>

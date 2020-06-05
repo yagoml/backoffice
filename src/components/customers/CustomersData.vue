@@ -6,12 +6,17 @@
       :lead-filter="leadFilter"
       @search="searchTerms"
       @setFilter="setFilter"
+      @tryRemoveSeveral="tryRemoveSeveral"
     />
     <div v-if="customersFiltered.length" class="bo-container">
       <CustomersTable
         :customers="customersFiltered"
-        :checked-list="checked"
+        :checked="checked"
+        :all-checked-state="allChecked"
         @tryDelete="tryDelete"
+        @toggleChecked="toggleChecked"
+        @toggleCheckAll="toggleCheckAll"
+        @edit="edit"
       />
       <TablePagination
         :per-page="perPage"
@@ -91,6 +96,11 @@ export default class CustomersData extends Vue {
     this.totalPages = Math.ceil(this.lsData.length / this.perPage)
   }
 
+  toggleCheckAll(value: boolean) {
+    this.allChecked = value
+    this.checkAll()
+  }
+
   getLsData(): ICustomer[] {
     return JSON.parse(localStorage.getItem('customersData') || '')
   }
@@ -103,6 +113,10 @@ export default class CustomersData extends Vue {
     )
   }
 
+  toggleChecked(checked: number[]) {
+    this.checked = checked
+  }
+
   setFilter(type: string) {
     this.leadFilter = type
   }
@@ -113,6 +127,21 @@ export default class CustomersData extends Vue {
     if (this.finishItem > data.length) this.finishItem = data.length
     this.totalItems = data.length
     this.totalPages = Math.ceil(data.length / this.perPage)
+  }
+
+  getDataIndex(pageIndex: number): number {
+    let index = pageIndex
+    if (this.page > 1) index += (this.page - 1) * this.perPage
+    return index
+  }
+
+  edit(index: number) {
+    const dataIndex = this.getDataIndex(index)
+
+    this.$router.push({
+      path: '/customer-form',
+      query: { index: dataIndex.toString() }
+    })
   }
 
   searchTerms(terms: string) {
