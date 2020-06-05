@@ -51,7 +51,7 @@
               <b-col cols="12" md="6">
                 <b-form-input
                   v-model="data.phones[0]"
-                  v-mask="['(##)####-####', '(##)#####-####']"
+                  v-mask="['(##) ####-####', '(##) #####-####']"
                   @input="errors.phone = null"
                   @blur="checkPhone(0)"
                   :class="{ 'input-error': errors.phone }"
@@ -73,7 +73,7 @@
                   v-model="data.phones[1]"
                   v-else
                   @input="errors.phone2 = null"
-                  v-mask="['(##)####-####', '(##)#####-####']"
+                  v-mask="['(##) ####-####', '(##) #####-####']"
                   @blur="checkPhone(1)"
                   :class="{ 'input-error': errors.phone2 }"
                   placeholder="Telefone 2"
@@ -264,14 +264,14 @@ export default class CustomerForm extends Vue {
     const key = !n ? 'phone' : 'phone2'
     this.errors[key] = null
 
-    if (!n) {
-      if (!this.data.phones[n].length)
-        return (this.errors[key] = 'Telefone é obrigatório')
+    if (!this.data.phones[n].length) {
+      if (!n) return (this.errors[key] = 'Telefone é obrigatório')
+      return
     }
 
-    const rgx = new RegExp(/(\(\d{2}\))(\d{4,5}-\d{4})/)
+    const rgx = new RegExp(/(\(\d{2}\))\s(\d{4,5}-\d{4})/)
 
-    if (this.data.phones[n].length < 13 || !rgx.test(this.data.phones[n]))
+    if (this.data.phones[n].length < 14 || !rgx.test(this.data.phones[n]))
       this.errors[key] = 'Telefone inválido'
   }
 

@@ -171,13 +171,17 @@ export default class CustomersData extends Vue {
     return this.customers.filter((c: ICustomer) => {
       if (this.leadFilter.length) {
         const val = this.leadFilter === 'l'
-        return val ? c.lead : !c.lead
+        if (val && !c.lead) return false
       }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
   }
 
   created() {
+    this.tryLoadJsonData()
+  }
+
+  tryLoadJsonData() {
     if (localStorage.getItem('customersData')) return
     localStorage.setItem(
       'customersData',

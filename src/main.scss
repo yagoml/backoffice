@@ -35,6 +35,12 @@
   }
 }
 
+.btn {
+  &:focus {
+    box-shadow: none;
+  }
+}
+
 // Texts
 .text-medium {
   font: 500 14px 'Inter';

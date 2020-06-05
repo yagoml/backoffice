@@ -6,9 +6,11 @@
       <router-link to="/"><img src="logo.svg"/></router-link>
       <div class="backoffice">BACKOFFICE</div>
     </div>
-    <div>
-      <button class="btn btn--search" title="Pesquisar"><IcSearch /></button>
-      <button class="btn" title="Notificações"><IcNotifications /></button>
+    <div class="d-flex align-items-center">
+      <router-link to="/customers" class="bo-btn" title="Pesquisar">
+        <IcSearch />
+      </router-link>
+      <button class="bo-btn" title="Notificações"><IcNotifications /></button>
     </div>
   </div>
 </template>
@@ -44,7 +46,7 @@ export default class AppHeader extends Vue {}
     }
   }
 
-  .btn {
+  .bo-btn {
     height: 50px;
 
     &:hover {
