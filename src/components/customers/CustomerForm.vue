@@ -1,149 +1,131 @@
 <template>
-  <div class="bo-container customer-form">
-    <div class="d-flex align-items-center customer-form__tabs">
-      <div class="tab selected">Dados do cliente</div>
-      <div class="tab">Dados do veículo</div>
-      <div class="tab">Intenção de compra</div>
-    </div>
+  <b-form class="customer-form">
     <b-row>
       <b-col cols="12" lg="6">
-        <div class="customer-form__wrapper">
-          <b-form class="customer-form__form">
-            <b-row>
-              <b-col cols="12" lg="6">
-                <b-form-input
-                  v-model="data.firstName"
-                  placeholder="Nome"
-                  @input="errors.firstName = null"
-                  @blur="checkName('firstName', 'Nome')"
-                  :class="{ 'input-error': errors.firstName }"
-                />
-                <div v-if="errors.firstName" class="form-error">
-                  {{ errors.firstName }}
-                </div>
-              </b-col>
-              <b-col cols="12" lg="6">
-                <b-form-input
-                  v-model="data.lastName"
-                  @input="errors.lastName = null"
-                  @blur="checkName('lastName', 'Sobrenome')"
-                  :class="{ 'input-error': errors.lastName }"
-                  placeholder="Sobrenome"
-                />
-                <div v-if="errors.lastName" class="form-error">
-                  {{ errors.lastName }}
-                </div>
-              </b-col>
-            </b-row>
-            <div class="position-relative">
-              <b-form-input
-                v-model="data.email"
-                :class="{ 'input-error': errors.email }"
-                @input="errors.email = null"
-                @blur="checkEmail()"
-                placeholder="E-mail"
-              />
-              <div v-if="errors.email" class="form-error full-field">
-                {{ errors.email }}
-              </div>
-            </div>
-            <b-row>
-              <b-col cols="12" md="6">
-                <b-form-input
-                  v-model="data.phones[0]"
-                  v-mask="['(##) ####-####', '(##) #####-####']"
-                  @input="errors.phone = null"
-                  @blur="checkPhone(0)"
-                  :class="{ 'input-error': errors.phone }"
-                  placeholder="Telefone"
-                />
-                <div v-if="errors.phone" class="form-error">
-                  {{ errors.phone }}
-                </div>
-              </b-col>
-              <b-col cols="12" md="6">
-                <div
-                  v-if="phones === 1"
-                  @click="phones++"
-                  class="d-flex align-items-center add-another"
-                >
-                  + adicionar outro
-                </div>
-                <b-form-input
-                  v-model="data.phones[1]"
-                  v-else
-                  @input="errors.phone2 = null"
-                  v-mask="['(##) ####-####', '(##) #####-####']"
-                  @blur="checkPhone(1)"
-                  :class="{ 'input-error': errors.phone2 }"
-                  placeholder="Telefone 2"
-                />
-                <div v-if="errors.phone2" class="form-error">
-                  {{ errors.phone2 }}
-                </div>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="12" md="6">
-                <b-form-input
-                  v-model="data.postalCode"
-                  @input="errors.postalCode = null"
-                  @blur="checkPostalCode()"
-                  v-mask="['#####-###']"
-                  :class="{ 'input-error': errors.postalCode }"
-                  placeholder="CEP"
-                />
-                <div v-if="errors.postalCode" class="form-error">
-                  {{ errors.postalCode }}
-                </div>
-              </b-col>
-            </b-row>
-            <b-form-input disabled placeholder="Endereço" />
-            <b-row>
-              <b-col cols="12" lg="6">
-                <b-form-input disabled placeholder="Número" />
-              </b-col>
-              <b-col cols="12" lg="6">
-                <b-form-input disabled placeholder="Complemento" />
-              </b-col>
-            </b-row>
-            <b-form-input disabled placeholder="Bairro" />
-            <b-row>
-              <b-col cols="12" lg="6">
-                <b-form-input disabled placeholder="Cidade" />
-              </b-col>
-              <b-col cols="12" lg="6">
-                <b-form-input disabled placeholder="Estado" />
-              </b-col>
-            </b-row>
-          </b-form>
+        <b-form-input
+          v-model="data.firstName"
+          placeholder="Nome"
+          @input="errors.firstName = null"
+          @blur="checkName('firstName', 'Nome')"
+          :class="{ 'input-error': errors.firstName }"
+        />
+        <div v-if="errors.firstName" class="form-error">
+          {{ errors.firstName }}
+        </div>
+      </b-col>
+      <b-col cols="12" lg="6">
+        <b-form-input
+          v-model="data.lastName"
+          @input="errors.lastName = null"
+          @blur="checkName('lastName', 'Sobrenome')"
+          :class="{ 'input-error': errors.lastName }"
+          placeholder="Sobrenome"
+        />
+        <div v-if="errors.lastName" class="form-error">
+          {{ errors.lastName }}
         </div>
       </b-col>
     </b-row>
-    <div class="d-flex align-items-center p20 customer-form__footer">
-      <button @click="trySubmit" class="bo-btn bo-btn--primary mr15">
-        Salvar
-      </button>
-      <router-link to="/customers" class="bo-btn btn-cancel">
-        Cancelar
-      </router-link>
+    <div class="position-relative">
+      <b-form-input
+        v-model="data.email"
+        :class="{ 'input-error': errors.email }"
+        @input="errors.email = null"
+        @blur="checkEmail()"
+        placeholder="E-mail"
+      />
+      <div v-if="errors.email" class="form-error full-field">
+        {{ errors.email }}
+      </div>
     </div>
-  </div>
+    <b-row>
+      <b-col cols="12" md="6">
+        <b-form-input
+          v-model="data.phones[0]"
+          v-mask="['(##) ####-####', '(##) #####-####']"
+          @input="errors.phone = null"
+          @blur="checkPhone(0)"
+          :class="{ 'input-error': errors.phone }"
+          placeholder="Telefone"
+        />
+        <div v-if="errors.phone" class="form-error">
+          {{ errors.phone }}
+        </div>
+      </b-col>
+      <b-col cols="12" md="6">
+        <div
+          v-if="phones === 1"
+          @click="phones++"
+          class="d-flex align-items-center add-another"
+        >
+          + adicionar outro
+        </div>
+        <b-form-input
+          v-model="data.phones[1]"
+          v-else
+          @input="errors.phone2 = null"
+          v-mask="['(##) ####-####', '(##) #####-####']"
+          @blur="checkPhone(1)"
+          :class="{ 'input-error': errors.phone2 }"
+          placeholder="Telefone 2"
+        />
+        <div v-if="errors.phone2" class="form-error">
+          {{ errors.phone2 }}
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6">
+        <b-form-input
+          v-model="data.postalCode"
+          @input="errors.postalCode = null"
+          @blur="checkPostalCode()"
+          v-mask="['#####-###']"
+          :class="{ 'input-error': errors.postalCode }"
+          placeholder="CEP"
+        />
+        <div v-if="errors.postalCode" class="form-error">
+          {{ errors.postalCode }}
+        </div>
+      </b-col>
+    </b-row>
+    <b-form-input disabled placeholder="Endereço" />
+    <b-row>
+      <b-col cols="12" lg="6">
+        <b-form-input disabled placeholder="Número" />
+      </b-col>
+      <b-col cols="12" lg="6">
+        <b-form-input disabled placeholder="Complemento" />
+      </b-col>
+    </b-row>
+    <b-form-input disabled placeholder="Bairro" />
+    <b-row>
+      <b-col cols="12" lg="6">
+        <b-form-input disabled placeholder="Cidade" />
+      </b-col>
+      <b-col cols="12" lg="6">
+        <b-form-input disabled placeholder="Estado" />
+      </b-col>
+    </b-row>
+  </b-form>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { mask } from 'vue-the-mask'
 import {
   ICustomerData,
-  ICustomerErrors,
+  ICustomerError,
   ICustomer
 } from '@/interfaces/customers'
-import { mask } from 'vue-the-mask'
 
 @Component<CustomerForm>({
   directives: { mask }
 })
 export default class CustomerForm extends Vue {
+  @Prop() lsData!: ICustomer[]
+  @Prop() index!: string
+
   phones = 1
   data: ICustomerData = {
     firstName: '',
@@ -152,7 +134,7 @@ export default class CustomerForm extends Vue {
     phones: ['', ''],
     postalCode: ''
   }
-  errors: ICustomerErrors = {
+  errors: ICustomerError = {
     firstName: null,
     lastName: null,
     email: null,
@@ -161,20 +143,12 @@ export default class CustomerForm extends Vue {
     postalCode: null
   }
 
-  get hasErrors() {
+  get hasErrors(): boolean {
     return Object.values(this.errors).filter(e => e != null).length > 0
   }
 
-  get lsData() {
-    return JSON.parse(localStorage.getItem('customersData') || '')
-  }
-
-  get index(): string | (string | null)[] {
-    return this.$route.query.index
-  }
-
   mounted() {
-    if (this.index) this.loadData(parseInt(this.index.toString()))
+    if (this.index.length) this.loadData(parseInt(this.index))
   }
 
   loadData(index: number) {
@@ -191,42 +165,13 @@ export default class CustomerForm extends Vue {
     if (data.postalCode) this.data.postalCode = data.postalCode
   }
 
-  trySubmit() {
+  checkData() {
     this.checkName('firstName', 'Nome')
     this.checkName('lastName', 'Sobrenome')
     this.checkEmail()
     this.checkPhone(0)
     if (this.data.phones[1].length) this.checkPhone(1)
     this.checkPostalCode()
-    if (!this.hasErrors) return this.submit()
-    document.documentElement.scrollTop = 0
-  }
-
-  submit() {
-    const p = this.data.phones
-    let phone = p[0]
-    if (p[1].length) phone += ', ' + p[1]
-    const data: ICustomer = {
-      name: this.data.firstName + ' ' + this.data.lastName,
-      email: this.data.email,
-      phone: phone
-    }
-    if (this.data.postalCode.length) data.postalCode = this.data.postalCode
-    if (this.index) this.editCustomer(data)
-    else this.addCustomer(data)
-    this.$router.push({
-      path: '/customers'
-    })
-  }
-
-  addCustomer(data: ICustomer) {
-    this.lsData.unshift(data)
-    localStorage.setItem('customersData', JSON.stringify(this.lsData))
-  }
-
-  editCustomer(data: ICustomer) {
-    this.lsData[this.index.toString()] = data
-    localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 
   checkName(key: string, name: string) {
@@ -287,91 +232,44 @@ export default class CustomerForm extends Vue {
 
 <style scoped lang="scss">
 @import 'src/variables';
-@import 'src/mixins';
 
 .customer-form {
-  &__tabs {
-    height: 48px;
-    border-bottom: 1px solid $light-gray;
+  .form-control {
+    height: 56px;
+    font: 16px/1.5 $font-secondary;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 15px;
+    border-color: rgba(0, 0, 0, 0.38);
 
-    .tab {
-      @include flex-centered;
-      color: rgba(0, 0, 0, 0.38);
-      font: 500 14px/1.14 'Inter';
-      width: calc(100% / 3);
-      height: 100%;
-      position: relative;
-      text-transform: uppercase;
-
-      &.selected {
-        color: $blue-violet;
-
-        &:after {
-          content: '';
-          width: 100%;
-          height: 2px;
-          background-color: $blue-violet;
-          position: absolute;
-          bottom: -1px;
-        }
-      }
+    &:disabled {
+      background-color: white;
+      opacity: 0.4;
     }
   }
 
-  &__wrapper {
-    padding: 40px;
+  .add-another {
+    height: 56px;
+    color: $bright-blue;
+    font: 500 14px/1.71 $font-primary;
+    cursor: pointer;
   }
 
-  &__form {
-    .form-control {
-      height: 56px;
-      font: 16px/1.5 $font-secondary;
-      letter-spacing: 0.15px;
-      color: rgba(0, 0, 0, 0.6);
-      margin-bottom: 15px;
-      border-color: rgba(0, 0, 0, 0.38);
-
-      &:disabled {
-        background-color: white;
-        opacity: 0.4;
-      }
-    }
-
-    .add-another {
-      height: 56px;
-      color: $bright-blue;
-      font: 500 14px/1.71 $font-primary;
-      cursor: pointer;
-    }
-
-    .input-error {
-      margin-bottom: 25px;
-      border: 1px solid $coral;
-      color: $coral;
-    }
-
-    .form-error {
-      position: absolute;
-      bottom: 7px;
-      font-size: 12px;
-      padding-left: 5px;
-      color: $coral;
-
-      &.full-field {
-        bottom: -17px;
-      }
-    }
+  .input-error {
+    margin-bottom: 25px;
+    border: 1px solid $coral;
+    color: $coral;
   }
 
-  &__footer {
-    border-top: 1px solid $light-gray;
+  .form-error {
+    position: absolute;
+    bottom: 7px;
+    font-size: 12px;
+    padding-left: 5px;
+    color: $coral;
 
-    .bo-btn {
-      width: 150px;
-
-      &.btn-cancel {
-        color: $blue-violet;
-      }
+    &.full-field {
+      bottom: -17px;
     }
   }
 }

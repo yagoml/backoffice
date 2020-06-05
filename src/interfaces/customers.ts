@@ -15,7 +15,7 @@ export interface ICustomerData {
   postalCode: string
 }
 
-export interface ICustomerErrors {
+export interface ICustomerError {
   [key: string]: null | string | string[]
   firstName: null | string
   lastName: null | string

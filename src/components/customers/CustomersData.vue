@@ -62,6 +62,10 @@ export default class CustomersData extends Vue {
     return this.checked.filter(c => c !== null)
   }
 
+  get startIndex(): number {
+    return (this.page - 1) * this.perPage
+  }
+
   get customersFiltered(): ICustomer[] {
     const customers = this.lsData.filter((c: ICustomer) => {
       if (this.leadFilter.length) {
@@ -71,21 +75,24 @@ export default class CustomersData extends Vue {
       }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
-    const startIndex = (this.page - 1) * this.perPage
-    this.startItem = startIndex + 1
-    this.finishItem = startIndex + this.perPage
-    if (this.finishItem > customers.length) this.finishItem = customers.length
-    this.totalItems = customers.length
-    this.totalPages = Math.ceil(customers.length / this.perPage)
-    return customers.splice(startIndex, this.perPage)
+    this.setPaginationData(customers)
+    return customers.splice(this.startIndex, this.perPage)
   }
 
   created() {
     this.tryLoadJsonData()
-    this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
+    this.initData()
+  }
+
+  initData() {
+    this.lsData = this.getLsData()
     this.customers = this.lsData
     this.totalItems = this.customers.length
     this.totalPages = Math.ceil(this.lsData.length / this.perPage)
+  }
+
+  getLsData(): ICustomer[] {
+    return JSON.parse(localStorage.getItem('customersData') || '')
   }
 
   tryLoadJsonData() {
@@ -98,6 +105,14 @@ export default class CustomersData extends Vue {
 
   setFilter(type: string) {
     this.leadFilter = type
+  }
+
+  setPaginationData(data: ICustomer[]) {
+    this.startItem = this.startIndex + 1
+    this.finishItem = this.startIndex + this.perPage
+    if (this.finishItem > data.length) this.finishItem = data.length
+    this.totalItems = data.length
+    this.totalPages = Math.ceil(data.length / this.perPage)
   }
 
   searchTerms(terms: string) {
@@ -136,7 +151,7 @@ export default class CustomersData extends Vue {
     this.totalPages = Math.ceil(this.lsData.length / this.perPage)
     if (this.page > this.totalPages) {
       this.page--
-      this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
+      this.lsData = this.getLsData()
     }
   }
 
@@ -152,7 +167,7 @@ export default class CustomersData extends Vue {
     localStorage.setItem('customersData', JSON.stringify(this.customers))
     this.totalPages = Math.ceil(this.customers.length / this.perPage)
     if (this.page > this.totalPages) this.page--
-    this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
+    this.lsData = this.getLsData()
     this.checked = []
     this.allChecked = false
   }
@@ -166,13 +181,9 @@ export default class CustomersData extends Vue {
       if (this.page < 2) return
       this.page--
     }
-    const startIndex = (this.page - 1) * this.perPage
+    this.setPaginationData(this.lsData)
     const pageData = [...[], ...this.lsData]
-    this.startItem = startIndex + 1
-    this.finishItem = startIndex + this.perPage
-    if (this.finishItem > this.lsData.length)
-      this.finishItem = this.lsData.length
-    this.customers = pageData.splice(startIndex, this.perPage)
+    this.customers = pageData.splice(this.startIndex, this.perPage)
   }
 }
 </script>
