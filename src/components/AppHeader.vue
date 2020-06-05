@@ -7,10 +7,16 @@
       <div class="backoffice">BACKOFFICE</div>
     </div>
     <div class="d-flex align-items-center">
-      <router-link to="/customers" class="bo-btn" title="Pesquisar">
+      <router-link
+        to="/customers"
+        class="bo-btn bo-icon-hover"
+        title="Pesquisar"
+      >
         <IcSearch />
       </router-link>
-      <button class="bo-btn" title="Notificações"><IcNotifications /></button>
+      <button class="bo-btn bo-icon-hover" title="Notificações">
+        <IcNotifications />
+      </button>
     </div>
   </div>
 </template>
@@ -48,12 +54,6 @@ export default class AppHeader extends Vue {}
 
   .bo-btn {
     height: 50px;
-
-    &:hover {
-      g > path {
-        fill: #0065ff !important;
-      }
-    }
   }
 }
 </style>

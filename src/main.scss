@@ -72,6 +72,14 @@
   text-transform: uppercase;
 }
 
+.bo-icon-hover {
+  &:hover {
+    g > path {
+      fill: #0065ff !important;
+    }
+  }
+}
+
 // Buttons
 .bo-btn {
   padding: 5px 15px;
@@ -87,6 +95,10 @@
 
   &:focus {
     outline: none;
+  }
+
+  &:disabled {
+    pointer-events: none;
   }
 
   &--primary {
@@ -132,6 +144,10 @@
   g > path {
     fill: rgba(0, 0, 0, 0.87) !important;
   }
+}
+
+.btn-link {
+  padding: 0;
 }
 
 // Margins

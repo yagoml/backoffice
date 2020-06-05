@@ -86,9 +86,9 @@
                 :unchecked-value="null"
               ></b-form-checkbox>
             </b-td>
-            <b-td class="text-medium customers-data__td">{{
-              customer.name
-            }}</b-td>
+            <b-td class="text-medium customers-data__td">
+              {{ customer.name }}
+            </b-td>
             <b-td class="customers-data__td">
               <span v-if="customer.lead" class="bo-tag bo-tag--secondary">
                 Lead
@@ -122,6 +122,49 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
+      <div
+        class="d-flex align-items-center justify-content-between customers-data__pagination"
+      >
+        <div class="d-flex align-items-center">
+          <span class="mr10 customers-data__info">Itens por página:</span>
+          <div class="position-relative d-flex align-items-center">
+            <select
+              name="per-page"
+              class="mr10 text-medium customers-data__select"
+              :value="perPage"
+              @input="perPage = parseInt($event.target.value)"
+            >
+              <option
+                v-for="option in perPageOptions"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <IcArrowDown class="ic-arrow-down" />
+          </div>
+          <span class="customers-data__info">
+            {{ startItem }}-{{ finishItem }} de {{ totalItems }}
+          </span>
+        </div>
+        <div class="d-flex align-items-center">
+          <button
+            class="bo-btn bo-icon-hover"
+            :disabled="page < 2"
+            @click="changePage(true)"
+          >
+            <BIconChevronLeft />
+          </button>
+          <button
+            class="bo-btn bo-icon-hover"
+            :disabled="page === totalPages"
+            @click="changePage()"
+          >
+            <BIconChevronRight />
+          </button>
+        </div>
+      </div>
     </div>
     <b-alert v-else show variant="warning customers-data__empty">
       Nenhum cliente encontrado com o(s) termo(s) pesquisados.
@@ -138,8 +181,11 @@ import {
   BIconPlus,
   BIconFilter,
   BIconThreeDotsVertical,
-  BIconTrash
+  BIconTrash,
+  BIconChevronLeft,
+  BIconChevronRight
 } from 'bootstrap-vue'
+import IcArrowDown from '@/assets/svg/ic-arrow-drop-down.svg'
 
 @Component<CustomersData>({
   components: {
@@ -148,7 +194,10 @@ import {
     BIconPlus,
     BIconFilter,
     BIconThreeDotsVertical,
-    BIconTrash
+    BIconTrash,
+    IcArrowDown,
+    BIconChevronLeft,
+    BIconChevronRight
   }
 })
 export default class CustomersData extends Vue {
@@ -156,19 +205,23 @@ export default class CustomersData extends Vue {
   iconsSize = { width: '24px', height: '24px' }
   checked: number[] = []
   allChecked = false
-  customers = this.lsData
+  customers: ICustomer[] = []
   leadFilter = ''
+  perPageOptions = [5, 10, 15, 20]
+  perPage = 5
+  page = 1
+  startItem = 1
+  finishItem = 1 * this.perPage
+  totalItems = 0
+  totalPages = 0
+  lsData: ICustomer[] = []
 
-  get lsData() {
-    return JSON.parse(localStorage.getItem('customersData') || '')
-  }
-
-  get selected() {
+  get selected(): number[] {
     return this.checked.filter(c => c !== null)
   }
 
-  get customersFiltered() {
-    return this.customers.filter((c: ICustomer) => {
+  get customersFiltered(): ICustomer[] {
+    const customers = this.lsData.filter((c: ICustomer) => {
       if (this.leadFilter.length) {
         const val = this.leadFilter === 'l'
         if (val && !c.lead) return false
@@ -176,10 +229,21 @@ export default class CustomersData extends Vue {
       }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
+    const startIndex = (this.page - 1) * this.perPage
+    this.startItem = startIndex + 1
+    this.finishItem = startIndex + this.perPage
+    if (this.finishItem > customers.length) this.finishItem = customers.length
+    this.totalItems = customers.length
+    this.totalPages = Math.ceil(customers.length / this.perPage)
+    return customers.splice(startIndex, this.perPage)
   }
 
   created() {
     this.tryLoadJsonData()
+    this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
+    this.customers = this.lsData
+    this.totalItems = this.customers.length
+    this.totalPages = Math.ceil(this.lsData.length / this.perPage)
   }
 
   tryLoadJsonData() {
@@ -197,7 +261,7 @@ export default class CustomersData extends Vue {
   checkAll() {
     this.checked = []
     if (this.allChecked) {
-      this.customers.forEach((c: ICustomer, i: number) => {
+      this.customersFiltered.forEach((c: ICustomer, i: number) => {
         this.checked.push(i)
       })
     }
@@ -218,8 +282,12 @@ export default class CustomersData extends Vue {
 
   delete(index: number) {
     this.lsData.splice(index, 1)
-    this.customers = this.lsData
     localStorage.setItem('customersData', JSON.stringify(this.lsData))
+    this.totalPages = Math.ceil(this.lsData.length / this.perPage)
+    if (this.page > this.totalPages) {
+      this.page--
+      this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
+    }
   }
 
   tryRemoveSeveral() {
@@ -227,11 +295,16 @@ export default class CustomersData extends Vue {
       `Excluir os ${this.selected.length} clientes selecionados? Esta ação não poderá ser desfeita!`
     )
     if (!confirm) return
-    const lsCopy = [...[], ...this.customers]
-    for (const s of this.selected) lsCopy[s] = null
-    this.customers = lsCopy.filter((d: ICustomer) => d)
+    const lsCopy: ICustomer[] = [...[], ...this.lsData]
+    this.customers = lsCopy.filter((d: ICustomer, i: number) => {
+      return !this.selected.includes(i)
+    })
     localStorage.setItem('customersData', JSON.stringify(this.customers))
+    this.totalPages = Math.ceil(this.customers.length / this.perPage)
+    if (this.page > this.totalPages) this.page--
+    this.lsData = JSON.parse(localStorage.getItem('customersData') || '')
     this.checked = []
+    this.allChecked = false
   }
 
   edit(index: number) {
@@ -239,10 +312,30 @@ export default class CustomersData extends Vue {
       path: '/add-customer?index=' + index
     })
   }
+
+  changePage(prev: boolean | null) {
+    if (!prev) {
+      const totalPages = Math.ceil(this.lsData.length / this.perPage)
+      if (this.page >= totalPages) return
+      this.page++
+    } else {
+      if (this.page < 2) return
+      this.page--
+    }
+    const startIndex = (this.page - 1) * this.perPage
+    const pageData = [...[], ...this.lsData]
+    this.startItem = startIndex + 1
+    this.finishItem = startIndex + this.perPage
+    if (this.finishItem > this.lsData.length)
+      this.finishItem = this.lsData.length
+    this.customers = pageData.splice(startIndex, this.perPage)
+  }
 }
 </script>
 
 <style scoped lang="scss">
+@import 'src/variables';
+
 .customers-data {
   &__th {
     padding: 16px 20px;
@@ -255,7 +348,7 @@ export default class CustomersData extends Vue {
 
   &__td {
     vertical-align: middle;
-    padding: 11px 20px;
+    padding: 19px 20px;
   }
 
   &__actions {
@@ -293,6 +386,31 @@ export default class CustomersData extends Vue {
 
   &__empty {
     width: fit-content;
+  }
+
+  &__pagination {
+    padding: 0 10px 0 20px;
+    height: 54px;
+    border-top: 1px solid $light-gray;
+  }
+
+  &__select {
+    width: 40px;
+    border: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__info {
+    font: 11px 'Inter';
+    color: $gray;
+  }
+
+  .ic-arrow-down {
+    position: absolute;
+    right: 8px;
+    pointer-events: none;
   }
 
   .table-responsive {
