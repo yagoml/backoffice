@@ -22,6 +22,11 @@
   align-items: center;
   justify-content: center;
   width: 80px;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
 
   &--secondary {
     border-radius: 13px;
@@ -79,9 +84,9 @@
   }
 
   &--primary {
-    background-color: #6200ee;
+    background-color: $blue-violet;
     color: white;
-    border: 1px solid #6200ee;
+    border: 1px solid $blue-violet;
 
     &:hover {
       @include hover-shadow;
@@ -93,11 +98,23 @@
   &--secondary {
     background-color: white;
     border: solid 1px rgba(0, 0, 0, 0.12);
-    color: #6200ee;
+    color: $blue-violet;
 
     &:hover {
       @include hover-shadow;
-      color: #6200ee;
+      color: $blue-violet;
+    }
+  }
+
+  &--red {
+    background-color: $coral;
+    color: white;
+    border: 1px solid $coral;
+
+    &:hover {
+      @include hover-shadow;
+      color: white;
+      text-decoration: none;
     }
   }
 }

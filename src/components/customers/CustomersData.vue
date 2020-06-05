@@ -2,9 +2,20 @@
   <div class="customers-data">
     <div class="d-flex align-items-center mb30 customers-data__actions">
       <div class="position-relative d-flex align-items-center">
-        <button class="bo-btn bo-btn--secondary mr10">
-          <BIconFilter :style="iconsSize" class="mr-1" /> Filtrar
-        </button>
+        <b-dropdown
+          id="dropdown-filter"
+          variant="link"
+          toggle-class="text-decoration-none"
+          no-caret
+        >
+          <template v-slot:button-content>
+            <button class="bo-btn bo-btn--secondary mr10">
+              <BIconFilter :style="iconsSize" class="mr-1" /> Filtrar
+            </button>
+          </template>
+          <b-dropdown-item @click="setFilter('l')">Lead</b-dropdown-item>
+          <b-dropdown-item @click="setFilter('c')">Cliente</b-dropdown-item>
+        </b-dropdown>
         <b-form-input
           v-model="search"
           class="customers-data__search"
@@ -22,12 +33,32 @@
           <BIconX :style="iconsSize" />
         </button>
       </div>
-      <router-link
-        to="add-customer"
-        class="bo-btn bo-btn--primary ml-auto btn-add"
-      >
-        <BIconPlus :style="iconsSize" class="mr-1" /> Adicionar
-      </router-link>
+      <div v-if="leadFilter.length" class="d-flex align-items-center ml-5">
+        <span class="mr15">Filtro aplicado:</span>
+        <button
+          v-if="leadFilter === 'l'"
+          @click="setFilter('')"
+          class="bo-tag bo-tag--secondary"
+        >
+          Lead <BIconX class="ml-1" style="width: 20px; height: 20px;" />
+        </button>
+        <button v-else class="bo-tag" @click="setFilter('')">
+          Cliente <BIconX class="ml-1" style="width: 20px; height: 20px;" />
+        </button>
+      </div>
+      <div class="d-flex align-items-center ml-auto">
+        <button
+          v-if="this.selected.length"
+          @click="tryRemoveSeveral()"
+          class="bo-btn bo-btn--red mr15"
+        >
+          <BIconTrash :style="{ width: '20px', height: '20px' }" class="mr-1" />
+          Excluir ({{ this.selected.length }})
+        </button>
+        <router-link to="add-customer" class="bo-btn bo-btn--primary btn-add">
+          <BIconPlus :style="iconsSize" class="mr-1" /> Adicionar
+        </router-link>
+      </div>
     </div>
     <div v-if="customersFiltered.length" class="bo-container">
       <b-table-simple hover responsive>
@@ -35,6 +66,7 @@
           <b-th class="text-small-sb customers-data__th op1">
             <b-form-checkbox
               v-model="allChecked"
+              @input="checkAll()"
               :value="true"
               :unchecked-value="false"
             ></b-form-checkbox>
@@ -50,8 +82,8 @@
             <b-td class="text-medium customers-data__td">
               <b-form-checkbox
                 v-model="checked[i]"
-                :value="true"
-                :unchecked-value="false"
+                :value="i"
+                :unchecked-value="null"
               ></b-form-checkbox>
             </b-td>
             <b-td class="text-medium customers-data__td">{{
@@ -63,12 +95,12 @@
               </span>
               <span v-else class="bo-tag">Cliente</span>
             </b-td>
-            <b-td class="text-medium customers-data__td">{{
-              customer.phone
-            }}</b-td>
-            <b-td class="text-medium customers-data__td">{{
-              customer.email
-            }}</b-td>
+            <b-td class="text-medium customers-data__td">
+              {{ customer.phone }}
+            </b-td>
+            <b-td class="text-medium customers-data__td">
+              {{ customer.email }}
+            </b-td>
             <b-td class="d-flex justify-content-end customers-data__td">
               <b-dropdown
                 :id="`dropdown-${i}`"
@@ -83,7 +115,7 @@
                     :id="`dropdown-${i}`"
                   />
                 </template>
-                <b-dropdown-item>Editar</b-dropdown-item>
+                <b-dropdown-item @click="edit(i)">Editar</b-dropdown-item>
                 <b-dropdown-item @click="tryDelete(i)">Excluir</b-dropdown-item>
               </b-dropdown>
             </b-td>
@@ -105,7 +137,8 @@ import {
   BIconX,
   BIconPlus,
   BIconFilter,
-  BIconThreeDotsVertical
+  BIconThreeDotsVertical,
+  BIconTrash
 } from 'bootstrap-vue'
 
 @Component<CustomersData>({
@@ -114,22 +147,32 @@ import {
     BIconX,
     BIconPlus,
     BIconFilter,
-    BIconThreeDotsVertical
+    BIconThreeDotsVertical,
+    BIconTrash
   }
 })
 export default class CustomersData extends Vue {
   search = ''
   iconsSize = { width: '24px', height: '24px' }
-  checked = []
+  checked: number[] = []
   allChecked = false
   customers = this.lsData
+  leadFilter = ''
 
   get lsData() {
     return JSON.parse(localStorage.getItem('customersData') || '')
   }
 
+  get selected() {
+    return this.checked.filter(c => c !== null)
+  }
+
   get customersFiltered() {
     return this.customers.filter((c: ICustomer) => {
+      if (this.leadFilter.length) {
+        const val = this.leadFilter === 'l'
+        return val ? c.lead : !c.lead
+      }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
   }
@@ -142,10 +185,54 @@ export default class CustomersData extends Vue {
     )
   }
 
+  setFilter(type: string) {
+    this.leadFilter = type
+  }
+
+  checkAll() {
+    this.checked = []
+    if (this.allChecked) {
+      this.customers.forEach((c: ICustomer, i: number) => {
+        this.checked.push(i)
+      })
+    }
+  }
+
+  mounted() {
+    document.documentElement.scrollTop = 0
+  }
+
   tryDelete(index: number) {
+    const name = this.lsData[index].name.split(' ')[0]
+    const confirm = window.confirm(
+      `Excluir o cliente ${name}? Esta ação não poderá ser desfeita!`
+    )
+    if (!confirm) return
+    this.delete(index)
+  }
+
+  delete(index: number) {
     this.lsData.splice(index, 1)
     this.customers = this.lsData
     localStorage.setItem('customersData', JSON.stringify(this.lsData))
+  }
+
+  tryRemoveSeveral() {
+    const confirm = window.confirm(
+      `Excluir os ${this.selected.length} clientes selecionados? Esta ação não poderá ser desfeita!`
+    )
+    if (!confirm) return
+    const lsCopy = [...[], ...this.customers]
+    for (const s of this.selected) lsCopy[s] = null
+    this.customers = lsCopy.filter((d: ICustomer) => d)
+    localStorage.setItem('customersData', JSON.stringify(this.customers))
+    this.checked = []
+  }
+
+  edit(index: number) {
+    this.$router.push({
+      path: '/add-customer?index=' + index
+    })
   }
 }
 </script>

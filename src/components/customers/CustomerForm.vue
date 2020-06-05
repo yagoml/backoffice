@@ -124,7 +124,9 @@
       <button @click="trySubmit" class="bo-btn bo-btn--primary mr15">
         Salvar
       </button>
-      <button class="bo-btn btn-cancel">Cancelar</button>
+      <router-link to="/customers" class="bo-btn btn-cancel">
+        Cancelar
+      </router-link>
     </div>
   </div>
 </template>
@@ -167,6 +169,28 @@ export default class CustomerForm extends Vue {
     return JSON.parse(localStorage.getItem('customersData') || '')
   }
 
+  get index(): string | (string | null)[] {
+    return this.$route.query.index
+  }
+
+  mounted() {
+    if (this.index) this.loadData(parseInt(this.index.toString()))
+  }
+
+  loadData(index: number) {
+    const data = this.lsData[index]
+    this.data.firstName = data.name.split(' ')[0]
+    this.data.lastName = data.name.replace(this.data.firstName + ' ', '')
+    this.data.email = data.email
+    const phones = data.phone.split(',')
+    this.data.phones[0] = phones[0]
+    if (phones[1]) {
+      this.data.phones[1] = phones[1]
+      this.phones++
+    }
+    if (data.postalCode) this.data.postalCode = data.postalCode
+  }
+
   trySubmit() {
     this.checkName('firstName', 'Nome')
     this.checkName('lastName', 'Sobrenome')
@@ -174,7 +198,8 @@ export default class CustomerForm extends Vue {
     this.checkPhone(0)
     if (this.data.phones[1].length) this.checkPhone(1)
     this.checkPostalCode()
-    if (!this.hasErrors) this.submit()
+    if (!this.hasErrors) return this.submit()
+    document.documentElement.scrollTop = 0
   }
 
   submit() {
@@ -187,7 +212,8 @@ export default class CustomerForm extends Vue {
       phone: phone
     }
     if (this.data.postalCode.length) data.postalCode = this.data.postalCode
-    this.addCustomer(data)
+    if (this.index) this.editCustomer(data)
+    else this.addCustomer(data)
     this.$router.push({
       path: '/customers'
     })
@@ -195,6 +221,11 @@ export default class CustomerForm extends Vue {
 
   addCustomer(data: ICustomer) {
     this.lsData.unshift(data)
+    localStorage.setItem('customersData', JSON.stringify(this.lsData))
+  }
+
+  editCustomer(data: ICustomer) {
+    this.lsData[this.index.toString()] = data
     localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 
@@ -299,11 +330,10 @@ export default class CustomerForm extends Vue {
       color: rgba(0, 0, 0, 0.6);
       margin-bottom: 15px;
       border-color: rgba(0, 0, 0, 0.38);
-      opacity: 0.7;
 
       &:disabled {
         background-color: white;
-        opacity: 0.3;
+        opacity: 0.4;
       }
     }
 
