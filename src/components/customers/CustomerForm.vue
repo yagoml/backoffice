@@ -120,7 +120,7 @@ import {
 } from '@/interfaces/customers'
 
 @Component<CustomerForm>({
-  directives: { mask }
+  directives: { mask } // https://github.com/vuejs-tips/vue-the-mask
 })
 export default class CustomerForm extends Vue {
   @Prop() lsData!: ICustomer[] // localstorage data
