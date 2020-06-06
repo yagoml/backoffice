@@ -123,17 +123,17 @@ import {
   directives: { mask }
 })
 export default class CustomerForm extends Vue {
-  @Prop() lsData!: ICustomer[]
-  @Prop() index!: string
+  @Prop() lsData!: ICustomer[] // localstorage data
+  @Prop() index!: string // selected index for edition
 
-  phones = 1
+  phones = 1 // number of phones fields (max: 2)
   data: ICustomerData = {
     firstName: '',
     lastName: '',
     email: '',
     phones: ['', ''],
     postalCode: ''
-  }
+  } // form data
   errors: ICustomerError = {
     firstName: null,
     lastName: null,
@@ -141,8 +141,12 @@ export default class CustomerForm extends Vue {
     phone: null,
     phone2: null,
     postalCode: null
-  }
+  } // erros data
 
+  /**
+   * Form errors state.
+   * @returns Errors found?
+   */
   get hasErrors(): boolean {
     return Object.values(this.errors).filter(e => e != null).length > 0
   }
@@ -151,6 +155,10 @@ export default class CustomerForm extends Vue {
     if (this.index.length) this.loadData(parseInt(this.index))
   }
 
+  /**
+   * Load form data of customer for edition.
+   * @param index Customer index
+   */
   loadData(index: number) {
     const data = this.lsData[index]
     this.data.firstName = data.name.split(' ')[0]
@@ -165,6 +173,9 @@ export default class CustomerForm extends Vue {
     if (data.postalCode) this.data.postalCode = data.postalCode
   }
 
+  /**
+   * Check form data. Set `errors`.
+   */
   checkData() {
     this.checkName('firstName', 'Nome')
     this.checkName('lastName', 'Sobrenome')
@@ -174,6 +185,11 @@ export default class CustomerForm extends Vue {
     this.checkPostalCode()
   }
 
+  /**
+   * Check names.
+   * @param key `firstName` or `lastName`
+   * @param name Value to check
+   */
   checkName(key: string, name: string) {
     this.errors[key] = null
 
@@ -189,6 +205,9 @@ export default class CustomerForm extends Vue {
       this.errors[key] = name + ' inválido'
   }
 
+  /**
+   * Check email.
+   */
   checkEmail() {
     this.errors.email = null
 
@@ -203,6 +222,10 @@ export default class CustomerForm extends Vue {
       this.errors.email = 'E-mail inválido'
   }
 
+  /**
+   * Check phones.
+   * @param n Phone index (0 or 1)
+   */
   checkPhone(n: number) {
     const key = !n ? 'phone' : 'phone2'
     this.errors[key] = null
@@ -218,6 +241,9 @@ export default class CustomerForm extends Vue {
       this.errors[key] = 'Telefone inválido'
   }
 
+  /**
+   * Check postal code.
+   */
   checkPostalCode() {
     this.errors.postalCode = null
     if (!this.data.postalCode.length) return

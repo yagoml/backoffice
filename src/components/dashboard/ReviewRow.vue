@@ -29,8 +29,12 @@ import { IVehicle } from '@/interfaces/vehicles'
   components: { VehicleInfo }
 })
 export default class ReviewRow extends Vue {
-  @Prop() readonly data!: IVehicle
+  @Prop() readonly data!: IVehicle // vehicle data
 
+  /**
+   * Min price accepted. (5% discount).
+   * @returns Min price
+   */
   get minAccepted(): number {
     return Math.floor(
       this.data.ad_selling_price - this.data.ad_selling_price * 0.05

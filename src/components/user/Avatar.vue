@@ -9,7 +9,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Avatar extends Vue {
-  imgSrc = './images/woman-picture.jpg'
+  imgSrc = './images/woman-picture.jpg' // user image src
 }
 </script>
 

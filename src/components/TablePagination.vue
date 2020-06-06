@@ -53,13 +53,13 @@ import IcArrowDown from '@/assets/svg/ic-arrow-drop-down.svg'
   components: { BIconChevronLeft, BIconChevronRight, IcArrowDown }
 })
 export default class TablePagination extends Vue {
-  @Prop() perPage!: number
-  @Prop() startItem!: number
-  @Prop() finishItem!: number
-  @Prop() totalItems!: number
-  @Prop() page!: number
-  @Prop() totalPages!: number
-  perPageOptions = [5, 10, 15, 20]
+  @Prop() perPage!: number // items per page
+  @Prop() startItem!: number // start item index
+  @Prop() finishItem!: number // last item index
+  @Prop() totalItems!: number // total items
+  @Prop() page!: number // current page
+  @Prop() totalPages!: number // total pages
+  perPageOptions = [5, 10, 15, 20] // options per page select
 }
 </script>
 

@@ -77,12 +77,12 @@ import { BIconThreeDotsVertical } from 'bootstrap-vue'
   components: { BIconThreeDotsVertical }
 })
 export default class CustomersTable extends Vue {
-  @Prop() checkedList!: number[]
-  @Prop() customers!: ICustomer[]
-  @Prop() allCheckedState!: boolean
-  allChecked = false
-  @Prop() checked!: number[]
+  @Prop() customers!: ICustomer[] // customers current page items
+  @Prop() allCheckedState!: boolean // parent all checked state
+  allChecked = false // is all checked?
+  @Prop() checked!: number[] // selected indexes list
 
+  // Watch parent all checked state change
   @Watch('allCheckedState')
   onStateChange(value: boolean) {
     this.allChecked = value

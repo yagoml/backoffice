@@ -79,11 +79,11 @@ import { BIconX, BIconPlus, BIconFilter, BIconTrash } from 'bootstrap-vue'
   }
 })
 export default class CustomersActions extends Vue {
-  @Prop() selected!: number[]
-  @Prop() search!: string
-  @Prop() leadFilter!: string
-  iconsSize = { width: '24px', height: '24px' }
-  input = ''
+  @Prop() selected!: number[] // selected indexes list
+  @Prop() search!: string // search terms
+  @Prop() leadFilter!: string // current filter
+  iconsSize = { width: '24px', height: '24px' } // icons size
+  input = '' // search input current value
 }
 </script>
 

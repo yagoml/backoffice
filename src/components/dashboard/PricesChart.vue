@@ -31,18 +31,17 @@ import { IChartLegend } from '@/interfaces/dashboard'
   components: { IcHelp, GChart, ChartLegend }
 })
 export default class PricesGraphic extends Vue {
-  // Array will be automatically processed with visualization.arrayToDataTable function
   chartData = [
     ['Label', 'Quantity'],
     ['Na média', 60],
     ['Acima da média', 25],
     ['Abaixo da média', 15]
-  ]
+  ] // Array will be automatically processed with visualization.arrayToDataTable function
   chartLegend: IChartLegend[] = [
     { label: 'Na média', percent: 60, color: '#1070ca' },
     { label: 'Acima da média', percent: 25, color: '#ec4c47' },
     { label: 'Abaixo da média', percent: 15, color: '#f7d154' }
-  ]
+  ] // legend data
   chartOptions = {
     pieHole: 0.8,
     pieSliceText: 'none',
@@ -51,7 +50,7 @@ export default class PricesGraphic extends Vue {
     legend: {
       position: 'none'
     }
-  }
+  } // chart config
 }
 </script>
 

@@ -46,6 +46,10 @@ import PricesChart from '@/components/dashboard/PricesChart.vue'
   }
 })
 export default class DashContent extends Vue {
+  /**
+   * Gadgets data.
+   * @returns Gadgets data list
+   */
   get gadgets(): IGadgetInfo[] {
     return this.$store.state.dashboard.gadgets
   }

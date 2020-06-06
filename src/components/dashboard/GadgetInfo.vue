@@ -34,7 +34,7 @@ import IcArrowDown from '@/assets/svg/ic-arrow-drop-down.svg'
   components: { IcArrowUp, IcArrowDown }
 })
 export default class GadgetInfo extends Vue {
-  @Prop() readonly gadget!: IGadgetInfo
+  @Prop() readonly gadget!: IGadgetInfo // gadget data
 }
 </script>
 

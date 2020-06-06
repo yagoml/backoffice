@@ -29,15 +29,27 @@ import CustomerForm from '@/components/customers/CustomerForm.vue'
   components: { FormTabs, CustomerForm }
 })
 export default class NewCustomer extends Vue {
+  /**
+   * Localstorage data.
+   * @returns Customers list
+   */
   get lsData(): ICustomer[] {
     return JSON.parse(localStorage.getItem('customersData') || '')
   }
 
+  /**
+   * Uri query param `index`.
+   * @returns Customer index for edition
+   */
   get index(): string {
     if (!this.$route.query.index) return ''
     return this.$route.query.index.toString()
   }
 
+  /**
+   * Customer form component.
+   * @returns Customer form $ref
+   */
   get customerForm(): HTMLFormElement {
     return this.$refs.customerForm
   }
@@ -46,12 +58,18 @@ export default class NewCustomer extends Vue {
     customerForm: HTMLFormElement
   }
 
+  /**
+   * Check form data before submit.
+   */
   trySubmit() {
     this.customerForm.checkData()
     if (!this.customerForm.hasErrors) return this.submit()
     document.documentElement.scrollTop = 0
   }
 
+  /**
+   * Submit customer form `data`.
+   */
   submit() {
     try {
       const p = this.customerForm.data.phones
@@ -77,11 +95,19 @@ export default class NewCustomer extends Vue {
     }
   }
 
+  /**
+   * Add new customer.
+   * @param data Customer data
+   */
   addCustomer(data: ICustomer) {
     this.lsData.unshift(data)
     localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 
+  /**
+   * Edit customer data.
+   * @param data Customer data
+   */
   editCustomer(data: ICustomer) {
     this.lsData[parseInt(this.index)] = data
     localStorage.setItem('customersData', JSON.stringify(this.lsData))

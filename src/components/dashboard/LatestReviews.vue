@@ -39,18 +39,29 @@ import { Component, Vue } from 'vue-property-decorator'
 import ReviewRow from '@/components/dashboard/ReviewRow.vue'
 import IcArrowDown from '@/assets/svg/ic-arrow-drop-down.svg'
 import IcArrowUp from '@/assets/svg/ic-arrow-drop-up.svg'
+import { IVehicle } from '@/interfaces/vehicles'
 
 @Component<LatestReviews>({
   components: { ReviewRow, IcArrowDown, IcArrowUp }
 })
 export default class LatestReviews extends Vue {
-  loading = false
+  loading = false // loading vehicles state
 
-  get vehicles() {
+  /**
+   * Vehicles data.
+   */
+  get vehicles(): IVehicle[] {
     return this.$store.state.dashboard.vehicles
   }
 
-  async created() {
+  created() {
+    this.loadVehiclesData()
+  }
+
+  /**
+   * Load vehicles data from api.
+   */
+  async loadVehiclesData() {
     this.loading = true
     await this.$store.dispatch('dashboard/getVehicles')
     this.loading = false

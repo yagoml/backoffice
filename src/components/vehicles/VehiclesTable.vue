@@ -27,7 +27,7 @@ import {
 
 @Component
 export default class VehiclesTable extends Vue {
-  loading = false
+  loading = false // vehicles data loading state
   fields: IVehicleTableField[] = [
     {
       key: 'brand',
@@ -69,20 +69,34 @@ export default class VehiclesTable extends Vue {
       label: 'Preço',
       sortable: true
     }
-  ]
-  items: IVehicleTable[] = []
+  ] // table fields config
+  items: IVehicleTable[] = [] // table items
 
+  /**
+   * Vehicles data from api.
+   * @returns Vehicles list
+   */
   get vehicles(): IVehicle[] {
     return this.$store.state.dashboard.vehicles
   }
 
-  async created() {
+  created() {
+    this.loadVehiclesData()
+  }
+
+  /**
+   * Load vehicles data from api.
+   */
+  async loadVehiclesData() {
     this.loading = true
     await this.$store.dispatch('dashboard/getVehicles')
     this.loading = false
     this.setVehicles()
   }
 
+  /**
+   * Set vehicles table data items.
+   */
   setVehicles() {
     for (const vehicle of this.vehicles) {
       this.items.push({

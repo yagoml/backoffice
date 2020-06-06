@@ -21,7 +21,7 @@ import { IChartLegend } from '@/interfaces/dashboard'
 
 @Component
 export default class ChartLegend extends Vue {
-  @Prop() readonly data!: IChartLegend[]
+  @Prop() readonly data!: IChartLegend[] // chart legend data list
 }
 </script>
 

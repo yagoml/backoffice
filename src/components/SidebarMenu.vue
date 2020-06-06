@@ -60,7 +60,7 @@ import IcAccountBalanceWallet from '@/assets/svg/ic-account-balance-wallet.svg'
   }
 })
 export default class SidebarMenu extends Vue {
-  imgSrc = './svg/ic-home.svg'
+  imgSrc = './svg/ic-home.svg' // icon home
   items: ISBMenuItem[] = [
     { copy: 'Início', icon: 'home', path: '/' },
     { copy: 'Clientes', icon: 'person', path: '/customers' },
@@ -72,7 +72,7 @@ export default class SidebarMenu extends Vue {
       path: '#',
       disabled: true
     }
-  ]
+  ] // Menu items data
 }
 </script>
 

@@ -21,7 +21,7 @@ import { IVehicle } from '@/interfaces/vehicles'
 
 @Component
 export default class VehicleInfo extends Vue {
-  @Prop() readonly vehicle!: IVehicle
+  @Prop() readonly vehicle!: IVehicle // vehicle data
 }
 </script>
 

@@ -25,7 +25,11 @@ import { IMostDesired } from '@/interfaces/dashboard'
 
 @Component
 export default class MostDesired extends Vue {
-  get mostDesired() {
+  /**
+   * Most desired data.
+   * @returns Most desired list ordered desc
+   */
+  get mostDesired(): IMostDesired[] {
     return this.$store.state.dashboard.mostDesired.sort(
       (a: IMostDesired, b: IMostDesired) => {
         if (a.score > b.score) return -1
