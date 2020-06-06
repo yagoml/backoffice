@@ -1,4 +1,5 @@
 export interface ICustomer {
+  id: string
   name: string
   lead?: boolean
   phone: string
@@ -23,4 +24,8 @@ export interface ICustomerError {
   phone: null | string
   phone2: null | string
   postalCode: null | string
+}
+
+export interface IChecked {
+  [key: string]: boolean
 }

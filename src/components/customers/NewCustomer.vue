@@ -4,7 +4,7 @@
     <b-row>
       <b-col cols="12" lg="6">
         <div class="new-customer__wrapper">
-          <CustomerForm ref="customerForm" :ls-data="lsData" :index="index" />
+          <CustomerForm ref="customerForm" :ls-data="lsData" :id="id" />
         </div>
       </b-col>
     </b-row>
@@ -24,6 +24,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ICustomer } from '@/interfaces/customers'
 import FormTabs from '@/components/customers/FormTabs.vue'
 import CustomerForm from '@/components/customers/CustomerForm.vue'
+import { v4 as uuidv4 } from 'uuid'
 
 @Component<NewCustomer>({
   components: { FormTabs, CustomerForm }
@@ -38,12 +39,12 @@ export default class NewCustomer extends Vue {
   }
 
   /**
-   * Uri query param `index`.
-   * @returns Customer index for edition
+   * Uri query param `id`.
+   * @returns Customer id for edition
    */
-  get index(): string {
-    if (!this.$route.query.index) return ''
-    return this.$route.query.index.toString()
+  get id(): string {
+    if (!this.$route.query.id) return ''
+    return this.$route.query.id.toString()
   }
 
   /**
@@ -76,6 +77,7 @@ export default class NewCustomer extends Vue {
       let phone = p[0]
       if (p[1].length) phone += ', ' + p[1]
       const data: ICustomer = {
+        id: this.id ? this.id : uuidv4(),
         name:
           this.customerForm.data.firstName +
           ' ' +
@@ -85,7 +87,7 @@ export default class NewCustomer extends Vue {
       }
       if (this.customerForm.data.postalCode.length)
         data.postalCode = this.customerForm.data.postalCode
-      if (this.index) this.editCustomer(data)
+      if (this.id) this.editCustomer(data)
       else this.addCustomer(data)
       this.$router.push({
         path: '/customers'
@@ -101,7 +103,7 @@ export default class NewCustomer extends Vue {
    */
   addCustomer(data: ICustomer) {
     this.lsData.unshift(data)
-    localStorage.setItem('customersData', JSON.stringify(this.lsData))
+    this.updateLsData()
   }
 
   /**
@@ -109,7 +111,16 @@ export default class NewCustomer extends Vue {
    * @param data Customer data
    */
   editCustomer(data: ICustomer) {
-    this.lsData[parseInt(this.index)] = data
+    const index = this.lsData.findIndex(d => d.id === this.id)
+    if (index < 0) return
+    this.lsData[index] = data
+    this.updateLsData()
+  }
+
+  /**
+   * Update localstorage data.
+   */
+  updateLsData() {
     localStorage.setItem('customersData', JSON.stringify(this.lsData))
   }
 }

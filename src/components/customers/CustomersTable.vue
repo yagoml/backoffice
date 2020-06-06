@@ -5,7 +5,7 @@
         <b-th class="text-small-sb customers-table__th op1">
           <b-form-checkbox
             v-model="allChecked"
-            @input="$emit('toggleCheckAll', allChecked)"
+            @input="checkAll(allChecked)"
             :value="true"
             :unchecked-value="false"
           ></b-form-checkbox>
@@ -19,11 +19,7 @@
       <b-tbody>
         <b-tr v-for="(customer, i) in customers" :key="i">
           <b-td class="text-medium">
-            <b-form-checkbox
-              v-model="checked[i]"
-              :value="i"
-              :unchecked-value="null"
-            ></b-form-checkbox>
+            <b-form-checkbox v-model="checked[customer.id]"></b-form-checkbox>
           </b-td>
           <b-td class="text-medium">
             {{ customer.name }}
@@ -54,10 +50,10 @@
                   :id="`dropdown-${i}`"
                 />
               </template>
-              <b-dropdown-item @click="$emit('edit', i)">
+              <b-dropdown-item @click="$emit('edit', customer.id)">
                 Editar
               </b-dropdown-item>
-              <b-dropdown-item @click="$emit('tryDelete', i)">
+              <b-dropdown-item @click="$emit('tryDelete', customer.id)">
                 Excluir
               </b-dropdown-item>
             </b-dropdown>
@@ -69,8 +65,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { ICustomer } from '@/interfaces/customers'
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { ICustomer, IChecked } from '@/interfaces/customers'
 import { BIconThreeDotsVertical } from 'bootstrap-vue'
 
 @Component<CustomersTable>({
@@ -80,12 +76,40 @@ export default class CustomersTable extends Vue {
   @Prop() customers!: ICustomer[] // customers current page items
   @Prop() allCheckedState!: boolean // parent all checked state
   allChecked = false // is all checked?
-  @Prop() checked!: number[] // selected indexes list
 
-  // Watch parent all checked state change
-  @Watch('allCheckedState')
-  onStateChange(value: boolean) {
-    this.allChecked = value
+  /**
+   * Checked customers
+   */
+  get checked(): IChecked[] {
+    return this.$store.state.customers.checked
+  }
+
+  /**
+   * Toggle checked state
+   */
+  toggleChecked(id: string) {
+    this.$store.dispatch('customers/toggleChecked', id)
+  }
+
+  /**
+   * Check/uncheck customer
+   * @param id Customer id
+   * @param status check?
+   */
+  setChecked(id: string, status: boolean) {
+    this.$store.dispatch('customers/setChecked', {
+      id: id,
+      status: status
+    })
+  }
+
+  /**
+   * Check all checkboxes of current table page.
+   */
+  checkAll(status: boolean) {
+    this.customers.forEach((c: ICustomer) => {
+      this.setChecked(c.id, status)
+    })
   }
 }
 </script>

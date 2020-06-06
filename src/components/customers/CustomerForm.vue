@@ -124,7 +124,7 @@ import {
 })
 export default class CustomerForm extends Vue {
   @Prop() lsData!: ICustomer[] // localstorage data
-  @Prop() index!: string // selected index for edition
+  @Prop() id!: string // selected id for edition
 
   phones = 1 // number of phones fields (max: 2)
   data: ICustomerData = {
@@ -152,15 +152,15 @@ export default class CustomerForm extends Vue {
   }
 
   mounted() {
-    if (this.index.length) this.loadData(parseInt(this.index))
+    if (this.id.length) this.loadData()
   }
 
   /**
    * Load form data of customer for edition.
-   * @param index Customer index
    */
-  loadData(index: number) {
-    const data = this.lsData[index]
+  loadData() {
+    const data = this.lsData.find(d => d.id === this.id)
+    if (!data) return
     this.data.firstName = data.name.split(' ')[0]
     this.data.lastName = data.name.replace(this.data.firstName + ' ', '')
     this.data.email = data.email

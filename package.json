@@ -15,6 +15,7 @@
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
     "file-loader": "^6.0.0",
+    "uuid": "^8.1.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-google-charts": "^0.3.2",

@@ -2,7 +2,6 @@
   <div class="customers-data">
     <CustomersActions
       :search="search"
-      :selected="selected"
       :lead-filter="leadFilter"
       @search="searchTerms"
       @setFilter="setFilter"
@@ -11,11 +10,8 @@
     <div v-if="customersFiltered.length" class="bo-container">
       <CustomersTable
         :customers="customersFiltered"
-        :checked="checked"
         :all-checked-state="allChecked"
         @tryDelete="tryDelete"
-        @toggleChecked="toggleChecked"
-        @toggleCheckAll="toggleCheckAll"
         @edit="edit"
       />
       <TablePagination
@@ -51,7 +47,6 @@ import TablePagination from '@/components/TablePagination.vue'
 })
 export default class CustomersData extends Vue {
   search = '' // search terms
-  checked: number[] = [] // list of selected customers
   allChecked = false // all checked?
   customers: ICustomer[] = [] // Customers current page list
   leadFilter = '' // Filter applied (l: lead | c: customer)
@@ -64,19 +59,18 @@ export default class CustomersData extends Vue {
   lsData: ICustomer[] = [] // localstorage data
 
   /**
-   * List of selected customers.
-   * @returns Customer indexes list.
-   */
-  get selected(): number[] {
-    return this.checked.filter(c => c !== null)
-  }
-
-  /**
    * First index of customer on page.
    * @returns Customer index.
    */
   get startIndex(): number {
     return (this.page - 1) * this.perPage
+  }
+
+  /**
+   * Checked customers.
+   */
+  get checked() {
+    return this.$store.state.customers.checked
   }
 
   /**
@@ -87,12 +81,19 @@ export default class CustomersData extends Vue {
     const customers = this.lsData.filter((c: ICustomer) => {
       if (this.leadFilter.length) {
         const lead = this.leadFilter === 'l'
-        if (lead !== c.lead) return false
+        if ((lead && !c.lead) || (!lead && c.lead)) return false
       }
       return c.name.toLowerCase().match(this.search.toLowerCase())
     })
     this.setPaginationData(customers.length)
     return customers.splice(this.startIndex, this.perPage)
+  }
+
+  /**
+   * Total of selected customers.
+   */
+  get selectedLen(): number {
+    return Object.values(this.checked).filter(c => c).length
   }
 
   created() {
@@ -115,15 +116,6 @@ export default class CustomersData extends Vue {
   }
 
   /**
-   * Toggle all checkboxes selection.
-   * @param value Check or not.
-   */
-  toggleCheckAll(value: boolean) {
-    this.allChecked = value
-    this.checkAll()
-  }
-
-  /**
    * Get localstorage data.
    */
   getLsData(): ICustomer[] {
@@ -142,18 +134,11 @@ export default class CustomersData extends Vue {
   }
 
   /**
-   * Toggle checkbox selection.
-   * @param checked Checked list.
-   */
-  toggleChecked(checked: number[]) {
-    this.checked = checked
-  }
-
-  /**
    * Set/update filters.
    * @param type Filter selected (customer type).
    */
   setFilter(type: string) {
+    this.page = 1
     this.leadFilter = type
   }
 
@@ -170,25 +155,13 @@ export default class CustomersData extends Vue {
   }
 
   /**
-   * Get a real index of customer data.
-   * @param pageIndex Index on current page.
-   */
-  getDataIndex(pageIndex: number): number {
-    let index = pageIndex
-    if (this.page > 1) index += (this.page - 1) * this.perPage
-    return index
-  }
-
-  /**
    * Go to item edition.
-   * @param index Customer identifier.
+   * @param id Customer identifier.
    */
-  edit(index: number) {
-    const dataIndex = this.getDataIndex(index)
-
+  edit(id: string) {
     this.$router.push({
       path: '/customer-form',
-      query: { index: dataIndex.toString() }
+      query: { id: id }
     })
   }
 
@@ -197,19 +170,8 @@ export default class CustomersData extends Vue {
    * @param terms Search terms.
    */
   searchTerms(terms: string) {
+    this.page = 1
     this.search = terms
-  }
-
-  /**
-   * Check all checkboxes of current table page.
-   */
-  checkAll() {
-    this.checked = []
-    if (this.allChecked) {
-      this.customersFiltered.forEach((c: ICustomer, i: number) => {
-        this.checked.push(i)
-      })
-    }
   }
 
   /**
@@ -221,25 +183,34 @@ export default class CustomersData extends Vue {
   }
 
   /**
-   * Confirm customer exclusion.
-   * @param index Customer identifier.
+   * Get customer data by id.
+   * @param id Customer id
    */
-  tryDelete(index: number) {
-    const name = this.lsData[index].name.split(' ')[0]
+  getDataById(id: string) {
+    return this.lsData.find(d => d.id === id)
+  }
+
+  /**
+   * Confirm customer exclusion.
+   * @param id Customer identifier.
+   */
+  tryDelete(id: string) {
+    const data = this.getDataById(id)
+    if (!data) return
+    const name = data.name.split(' ')[0]
     const confirm = window.confirm(
       `Excluir o cliente ${name}? Esta ação não poderá ser desfeita!`
     )
     if (!confirm) return
-    this.delete(index)
+    this.delete(id)
+    this.updateLsData()
+    this.checkPage()
   }
 
   /**
-   * Delete a customer.
-   * @param index Customer identifier.
+   * Check for empty page, if empty, back one page.
    */
-  delete(index: number) {
-    this.lsData.splice(index, 1)
-    localStorage.setItem('customersData', JSON.stringify(this.lsData))
+  checkPage() {
     this.totalPages = Math.ceil(this.lsData.length / this.perPage)
     if (this.page > this.totalPages) {
       this.page--
@@ -248,23 +219,52 @@ export default class CustomersData extends Vue {
   }
 
   /**
+   * Delete a customer.
+   * @param id Customer identifier.
+   */
+  delete(id: string) {
+    const index = this.lsData.findIndex(d => d.id === id)
+    if (index < 0) return
+    this.lsData.splice(index, 1)
+    this.setChecked(id, false)
+  }
+
+  /**
+   * Check/uncheck customer
+   * @param id Customer id
+   * @param status check?
+   */
+  setChecked(id: string, status: boolean) {
+    this.$store.dispatch('customers/setChecked', {
+      id: id,
+      status: status
+    })
+  }
+
+  /**
+   * Update localstorage data.
+   */
+  updateLsData() {
+    localStorage.setItem('customersData', JSON.stringify(this.lsData))
+  }
+
+  /**
    * Remove multiple selected customers.
    */
   tryRemoveSeveral() {
     const confirm = window.confirm(
-      `Excluir os ${this.selected.length} clientes selecionados? Esta ação não poderá ser desfeita!`
+      `Excluir os ${this.selectedLen} clientes selecionados? Esta ação não poderá ser desfeita!`
     )
     if (!confirm) return
     const lsCopy: ICustomer[] = [...[], ...this.lsData]
-    this.customers = lsCopy.filter((d: ICustomer, i: number) => {
-      return !this.selected.includes(i)
+    this.customers = lsCopy.filter((d: ICustomer) => {
+      return !this.checked[d.id]
     })
     localStorage.setItem('customersData', JSON.stringify(this.customers))
     this.totalPages = Math.ceil(this.customers.length / this.perPage)
     if (this.page > this.totalPages) this.page--
     this.lsData = this.getLsData()
-    this.checked = []
-    this.allChecked = false
+    this.$store.dispatch('customers/checkAll', this.customers)
   }
 
   /**

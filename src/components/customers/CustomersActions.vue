@@ -29,7 +29,7 @@
       />
       <button
         v-else
-        @click="input = ''"
+        @click="$emit('search', (input = ''))"
         class="bo-btn position-absolute ic-close"
       >
         <BIconX :style="iconsSize" />
@@ -50,12 +50,12 @@
     </div>
     <div class="d-flex align-items-center ml-auto">
       <button
-        v-if="selected.length"
+        v-if="selectedLen"
         @click="$emit('tryRemoveSeveral')"
         class="bo-btn bo-btn--red mr15"
       >
         <BIconTrash :style="{ width: '20px', height: '20px' }" class="mr-1" />
-        Excluir ({{ selected.length }})
+        Excluir ({{ selectedLen }})
       </button>
       <router-link to="customer-form" class="bo-btn bo-btn--primary btn-add">
         <BIconPlus :style="iconsSize" class="mr-1" /> Adicionar
@@ -79,11 +79,24 @@ import { BIconX, BIconPlus, BIconFilter, BIconTrash } from 'bootstrap-vue'
   }
 })
 export default class CustomersActions extends Vue {
-  @Prop() selected!: number[] // selected indexes list
   @Prop() search!: string // search terms
   @Prop() leadFilter!: string // current filter
   iconsSize = { width: '24px', height: '24px' } // icons size
   input = '' // search input current value
+
+  /**
+   * Checked customers.
+   */
+  get checked() {
+    return this.$store.state.customers.checked
+  }
+
+  /**
+   * Total of checked customers.
+   */
+  get selectedLen() {
+    return Object.values(this.checked).filter(c => c).length
+  }
 }
 </script>
 
