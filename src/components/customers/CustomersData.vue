@@ -50,7 +50,7 @@ export default class CustomersData extends Vue {
   allChecked = false // all checked?
   customers: ICustomer[] = [] // Customers current page list
   leadFilter = '' // Filter applied (l: lead | c: customer)
-  perPage = 5 // items per page
+  perPage = 10 // items per page
   page = 1 // current page
   startItem = 1 // first index of page
   finishItem = 1 * this.perPage // last index of page
