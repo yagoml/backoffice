@@ -1,5 +1,11 @@
 <template>
-  <div class="sidebar-menu">
+  <div
+    ref="menu"
+    @mouseenter="opened = true"
+    @mouseleave="opened = false"
+    class="sidebar-menu"
+    :class="{ opened: opened }"
+  >
     <div class="d-flex align-items-center sidebar-menu__user-info">
       <Avatar />
       <div class="user-name">
@@ -16,6 +22,7 @@
           :to="item.path"
           class="d-flex align-items-center text-medium item"
           :class="{ disabled: item.disabled }"
+          @click.native="opened = false"
         >
           <IcHome v-if="item.icon === 'home'" class="icon" />
           <IcPerson v-if="item.icon === 'person'" class="icon" />
@@ -60,6 +67,7 @@ import IcAccountBalanceWallet from '@/assets/svg/ic-account-balance-wallet.svg'
   }
 })
 export default class SidebarMenu extends Vue {
+  opened = false // is opened?
   imgSrc = './svg/ic-home.svg' // icon home
   items: ISBMenuItem[] = [
     { copy: 'Início', icon: 'home', path: '/' },
@@ -159,7 +167,7 @@ export default class SidebarMenu extends Vue {
 
   $root: &;
 
-  &:hover {
+  &.opened {
     width: 240px;
 
     .user-name {
