@@ -21,7 +21,10 @@
         <router-link
           :to="item.path"
           class="d-flex align-items-center text-medium item"
-          :class="{ disabled: item.disabled }"
+          :class="{
+            disabled: item.disabled,
+            active: $route.path === item.path
+          }"
           @click.native="opened = false"
         >
           <IcHome v-if="item.icon === 'home'" class="icon" />
@@ -125,6 +128,7 @@ export default class SidebarMenu extends Vue {
     align-items: center;
 
     .item {
+      padding: 12px 13px;
       border-radius: 4px;
       cursor: pointer;
       height: 40px;
@@ -141,7 +145,7 @@ export default class SidebarMenu extends Vue {
         }
       }
 
-      &:hover {
+      &.active {
         background-color: #f3f7ff;
         color: #0065ff;
         text-decoration: none;
@@ -155,6 +159,10 @@ export default class SidebarMenu extends Vue {
             fill: #0065ff;
           }
         }
+      }
+
+      &:hover {
+        @extend .active;
       }
 
       &.disabled {
@@ -179,8 +187,6 @@ export default class SidebarMenu extends Vue {
     }
 
     .item {
-      padding: 12px 13px;
-
       &__copy {
         display: inline;
       }
