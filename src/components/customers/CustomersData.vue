@@ -179,6 +179,7 @@ export default class CustomersData extends Vue {
    * @param value Per page quantity.
    */
   setPerPage(value: number) {
+    this.page = 1
     this.perPage = value
   }
 
