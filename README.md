@@ -1,5 +1,5 @@
 # backoffice
-Prototype of a back-office. Made with *vue, vuex, typescript, sass, bootstrap, flexbox*, etc.
+Prototype of a back-office with data api integration. Made with: vue, vuex, typescript, sass, bootstrap, flexbox, etc.
 
 ## Project setup
 ```
